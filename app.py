@@ -78,7 +78,6 @@ def escape_markdown_v2(text: str) -> str:
     escape_chars = r'_*[]()~`>#+-=|{}.!'
     return re.sub(f'([{re.escape(escape_chars)}])', r'\\\1', text)
 
-# --- FIX --- Corrected indentation and style
 def strip_think_tags(text: str) -> str:
     text = text.strip()
     match = re.search(r"<think>.*?</think>(.*)", text, flags=re.DOTALL)
@@ -472,6 +471,7 @@ async def handle_user_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif update.message.text:
         await handle_text_message(update, context)
 
+# --- MODIFIED --- Added a safety check for empty responses
 async def process_and_respond(update: Update, context: ContextTypes.DEFAULT_TYPE, history: list):
     user_id = update.effective_user.id
     try:
@@ -484,6 +484,13 @@ async def process_and_respond(update: Update, context: ContextTypes.DEFAULT_TYPE
         completion = await get_groq_completion_with_retry(update, context, messages, model_config, effective_tokens)
         
         response_text = strip_think_tags(completion.choices[0].message.content)
+
+        # --- THE FIX --- Check for an empty response before trying to send it.
+        if not response_text or not response_text.strip():
+            logger.warning(f"Model generated an empty response for user {user_id}. Model: {model_config.get('name')}")
+            await update.message.reply_text("The model generated an empty response. Please try rephrasing your message.")
+            return
+
         history.append({"role": "assistant", "content": response_text, "timestamp": datetime.now(timezone.utc).isoformat()})
         set_user_data(user_id, 'current_chat', history)
         await send_response(update, context, response_text)
