@@ -2,3 +2,5 @@ python-telegram-bot
 PyYAML
 groq
 ddgs
+telegraph
+markdown2
