@@ -1,0 +1,820 @@
+en:
+  # Initial Setup & API
+  welcome_prompt: "Welcome! Please provide your Groq API key to begin."
+  hello_message: "Hello! I am a multimodal chatbot with memory. Use the menu button to see commands."
+  api_key_not_set: "Main API key is not set. Please use /api."
+  api_key_prompt: "Current main API key:\n`{masked_key}`\n\nInsert new key"
+  fallback_api_key_prompt: "Current fallback API key:\n`{masked_key}`\n\nInsert new key"
+  api_key_invalid: "API key not valid."
+  api_key_updated: "Main API key updated!"
+  fallback_api_key_updated: "Fallback API key updated!"
+
+  # Command Descriptions
+  menu_new_chat: "start a new conversation"
+  menu_web_search_on: "web search: ON"
+  menu_web_search_off: "web search: OFF"
+  menu_system_prompt: "modify the system prompt"
+  menu_image_prompt: "modify image description prompt"
+  menu_use_telegraph: "telegra.ph: {mode}"
+  menu_temperature: "current: {temp}"
+  menu_max_tokens: "current: {user_tokens} ({effective_tokens})"
+  menu_api: "set main Groq API key"
+  menu_fallback_api: "set fallback Groq API key"
+  menu_erase_me: "erase all your data"
+  menu_language: "change language"
+
+  # Command Responses
+  new_chat_started: "New chat started. Your previous conversation has been erased."
+  models_prompt: "Choose a new model."
+  system_prompt_prompt: "Current system prompt:\n`{prompt}`\n\nInsert new prompt"
+  image_prompt_prompt: "Current image prompt:\n`{prompt}`\n\nInsert new prompt"
+  temperature_prompt: "Current temperature: `{temp}`.\nEnter value from 0.0 to 2.0"
+  max_tokens_prompt: "Select a new max completion token value."
+  use_telegraph_prompt: "When should responses be sent via telegra.ph?"
+  erase_me_prompt: "Are you sure you want to permanently delete all your data? This includes API keys, chat history, and all settings. This action cannot be undone."
+  language_updated: "Language updated."
+
+  # Inline Buttons
+  button_yes_erase: "Yes, erase my data"
+  button_cancel: "Cancel"
+
+  # Status & Error Messages
+  api_key_fallback_attempt: "Primary API key failed. Trying fallback key..."
+  web_search_on_status: "Web search ON"
+  web_search_off_status: "Web search OFF"
+  system_prompt_updated: "System prompt updated!"
+  image_prompt_updated: "Image prompt updated!"
+  temperature_updated: "Temperature updated to {temp}"
+  invalid_value: "Invalid value."
+  invalid_format: "Invalid format."
+  web_search_failed: "❗Could not perform web search"
+  rate_limit_message: "API limit reached. I'll automatically retry in {seconds} seconds."
+  context_too_long: "The conversation history is too long. Please start a new chat using /new_chat."
+  api_error: "An unexpected API error occurred. Please try again."
+  empty_response_error: "The model generated an empty response. Please try rephrasing your message."
+  internal_error: "An internal error occurred."
+  audio_error: "Error processing audio."
+  photo_error: "Error with the image."
+  unsupported_file_error: "Sorry, I can only process text, photo, and audio messages."
+  reasoning_prompt: "Select reasoning effort for GPT-Oss 120B."
+  data_erased_confirm: "Your data has been permanently erased."
+  welcome_after_erase: "Welcome! To begin again, please provide your Groq API key."
+  no_data_to_erase: "No data found to erase."
+  operation_cancelled: "Operation cancelled."
+
+  # Default Prompts
+  default_system_prompt: |
+    You are Domovoi, an AI assistant that focuses its answers on providing factual information and measurable numbers whenever a numeric response is possible, while remaining flexible and friendly to the user.
+
+    Operating rules:
+
+    1. Units – always use SI (International System of Units) for measurements, such as meters (m) for length or kilograms (kg) for mass.
+
+    2. Formatting – absolutely never use tables, grids, or any tabular structures in your responses, as they cannot be visualized. If you need to list or separate items, use simple line breaks, dashes (-) for bullet points, or numbered lists. For sub-points, use two spaces of indentation before a dash. For example:
+
+    - Main point
+        - Sub-point with details
+
+    3. Content – provide the most precise numeric value available, state the unit clearly, and include a brief confidence range if relevant (e.g., "approximately 5.2 m, with a range of 5.0-5.4 m based on available data").
+
+    4. Fallback – if no precise information is available, state "no reliable data" upfront, then offer the best available estimate along with its source (e.g., "No reliable data; best estimate is 10 kg from a 2023 study by Example Institute").
+  default_image_prompt: |
+    You are a specialized visual data analysis AI assistant. Your primary function is to meticulously analyze the provided image and present a structured, factual report. Adhere strictly to the following operating rules:
+    1.  Structure: Present your analysis in distinct, clearly labeled sections:
+        -   `Summary:` A brief, one-sentence overview of the image's content and type (e.g., "A screenshot of a document detailing mythical travelers.").
+        -   `Transcribed Text:` Reproduce all text from the image verbatim. Preserve original line breaks and capitalization as accurately as possible.
+        -   `Key Elements:` List significant non-textual objects, symbols, icons, or components visible in the image.
+        -   `Data Analysis:` If the image contains charts, graphs, or infographics, describe their type and the data they represent.
+    2.  Transcription Accuracy: If any text is blurry or unreadable, represent it with `[illegible]`. Do not guess.
+    3.  Formatting:
+        -   You must adhere to plain-text formatting. **Never use Markdown** like asterisks for bold or hashtags for headers.
+        -   For any data that is clearly tabular in the image, you **must** format your transcription of it as a monospaced, ASCII-style table enclosed in a markdown code block (```). This is the only way to render tables correctly.
+es:
+  welcome_prompt: "¡Bienvenido! Por favor, proporciona tu clave de API de Groq para comenzar."
+  hello_message: "¡Hola! Soy un chatbot multimodal con memoria. Usa el botón de menú para ver los comandos."
+  api_key_not_set: "La clave de API principal no está configurada. Por favor, usa /api."
+  api_key_prompt: "Clave de API principal actual:\n`{masked_key}`\n\nInserta una nueva clave"
+  fallback_api_key_prompt: "Clave de API de respaldo actual:\n`{masked_key}`\n\nInserta una nueva clave"
+  api_key_invalid: "La clave de API no es válida."
+  api_key_updated: "¡Clave de API principal actualizada!"
+  fallback_api_key_updated: "¡Clave de API de respaldo actualizada!"
+  menu_new_chat: "iniciar una nueva conversación"
+  menu_web_search_on: "búsqueda web: ON"
+  menu_web_search_off: "búsqueda web: OFF"
+  menu_system_prompt: "modificar el prompt del sistema"
+  menu_image_prompt: "modificar el prompt de imagen"
+  menu_use_telegraph: "telegra.ph: {mode}"
+  menu_temperature: "actual: {temp}"
+  menu_max_tokens: "actual: {user_tokens} ({effective_tokens})"
+  menu_api: "configurar clave de API principal"
+  menu_fallback_api: "configurar clave de API de respaldo"
+  menu_erase_me: "borrar todos tus datos"
+  menu_language: "cambiar idioma"
+  new_chat_started: "Nuevo chat iniciado. Tu conversación anterior ha sido borrada."
+  models_prompt: "Elige un nuevo modelo."
+  system_prompt_prompt: "Prompt del sistema actual:\n`{prompt}`\n\nInserta un nuevo prompt"
+  image_prompt_prompt: "Prompt de imagen actual:\n`{prompt}`\n\nInserta un nuevo prompt"
+  temperature_prompt: "Temperatura actual: `{temp}`.\nIntroduce un valor entre 0.0 y 2.0"
+  max_tokens_prompt: "Selecciona un nuevo valor máximo de tokens de finalización."
+  use_telegraph_prompt: "¿Cuándo deben enviarse las respuestas a través de telegra.ph?"
+  erase_me_prompt: "¿Estás seguro de que quieres eliminar permanentemente todos tus datos? Esto incluye claves de API, historial de chat y todas las configuraciones. Esta acción no se puede deshacer."
+  language_updated: "Idioma actualizado."
+  button_yes_erase: "Sí, borrar mis datos"
+  button_cancel: "Cancelar"
+  api_key_fallback_attempt: "Falló la clave de API principal. Probando clave de respaldo..."
+  web_search_on_status: "Búsqueda web ON"
+  web_search_off_status: "Búsqueda web OFF"
+  system_prompt_updated: "¡Prompt del sistema actualizado!"
+  image_prompt_updated: "¡Prompt de imagen actualizado!"
+  temperature_updated: "Temperatura actualizada a {temp}"
+  invalid_value: "Valor inválido."
+  invalid_format: "Formato inválido."
+  web_search_failed: "❗No se pudo realizar la búsqueda web"
+  rate_limit_message: "Límite de API alcanzado. Reintentaré automáticamente en {seconds} segundos."
+  context_too_long: "El historial de la conversación es demasiado largo. Por favor, inicia un nuevo chat con /new_chat."
+  api_error: "Ocurrió un error inesperado en la API. Por favor, inténtalo de nuevo."
+  empty_response_error: "El modelo generó una respuesta vacía. Por favor, intenta reformular tu mensaje."
+  internal_error: "Ocurrió un error interno."
+  audio_error: "Error procesando el audio."
+  photo_error: "Error con la imagen."
+  unsupported_file_error: "Lo siento, solo puedo procesar mensajes de texto, fotos y audio."
+  reasoning_prompt: "Selecciona el nivel de esfuerzo de razonamiento para GPT-Oss 120B."
+  data_erased_confirm: "Tus datos han sido eliminados permanentemente."
+  welcome_after_erase: "¡Bienvenido! Para comenzar de nuevo, por favor proporciona tu clave de API de Groq."
+  no_data_to_erase: "No se encontraron datos para borrar."
+  operation_cancelled: "Operación cancelada."
+  default_system_prompt: |
+    Eres Domovoi, un asistente de IA que centra sus respuestas en proporcionar información objetiva y cifras medibles siempre que sea posible una respuesta numérica, a la vez que se mantiene flexible y fácil de usar.
+    
+    Reglas de funcionamiento:
+    
+    1. Unidades: utilice siempre el SI (Sistema Internacional de Unidades) para las medidas, como metros (m) para la longitud o kilogramos (kg) para la masa.
+    
+    2. Formato: nunca utilice tablas, cuadrículas ni estructuras tabulares en sus respuestas, ya que no se pueden visualizar. Si necesita enumerar o separar elementos, utilice saltos de línea simples, guiones (-) para viñetas o listas numeradas. Para los subpuntos, utilice dos espacios de sangría antes del guion. Por ejemplo:
+    
+    - Punto principal
+    - Subpunto con detalles
+    
+    3. Contenido: proporcione el valor numérico más preciso disponible, indique la unidad con claridad e incluya un breve rango de confianza si corresponde (p. ej., "aproximadamente 5,2 m, con un rango de 5,0-5,4 m según los datos disponibles").
+    
+    4. Respaldo: si no se dispone de información precisa, indique "no hay datos fiables" desde el principio y, a continuación, ofrezca la mejor estimación disponible junto con su fuente (p. ej., "No hay datos fiables; la mejor estimación es de 10 kg según un estudio de 2023 realizado por Example Institute").
+  default_image_prompt: |
+    Eres un asistente de IA especializado en análisis de datos visuales. Tu función principal es analizar meticulosamente la imagen proporcionada y presentar un informe estructurado y fáctico. Adhiérete estrictamente a las siguientes reglas de operación:
+    1.  Estructura: Presenta tu análisis en secciones distintas y claramente etiquetadas:
+        -   `Resumen:` Un breve resumen de una oración sobre el contenido y tipo de la imagen (p. ej., "Una captura de pantalla de un documento que detalla viajeros míticos.").
+        -   `Texto Transcrito:` Reproduce todo el texto de la imagen literalmente. Conserva los saltos de línea y las mayúsculas originales con la mayor precisión posible.
+        -   `Elementos Clave:` Enumera objetos no textuales, símbolos, iconos o componentes significativos visibles en la imagen.
+        -   `Análisis de Datos:` Si la imagen contiene gráficos o infografías, describe su tipo y los datos que representan.
+    2.  Precisión de la Transcripción: Si algún texto está borroso o ilegible, represéntalo con `[ilegible]`. No adivines.
+    3.  Formato:
+        -   Debes adherirte al formato de texto plano. **Nunca uses Markdown** como asteriscos para negrita o hashtags para encabezados.
+        -   Para cualquier dato que esté claramente en formato tabular en la imagen, **debes** formatear su transcripción como una tabla de estilo ASCII monoespaciada dentro de un bloque de código de Markdown (```). Esta es la única forma de renderizar tablas correctamente.
+fr:
+  welcome_prompt: "Bienvenue ! Veuillez fournir votre clé API Groq pour commencer."
+  hello_message: "Bonjour ! Je suis un chatbot multimodal avec mémoire. Utilisez le bouton de menu pour voir les commandes."
+  api_key_not_set: "La clé API principale n'est pas configurée. Veuillez utiliser /api."
+  api_key_prompt: "Clé API principale actuelle :\n`{masked_key}`\n\nInsérez une nouvelle clé"
+  fallback_api_key_prompt: "Clé API de secours actuelle :\n`{masked_key}`\n\nInsérez une nouvelle clé"
+  api_key_invalid: "La clé API n'est pas valide."
+  api_key_updated: "Clé API principale mise à jour !"
+  fallback_api_key_updated: "Clé API de secours mise à jour !"
+  menu_new_chat: "démarrer une nouvelle conversation"
+  menu_web_search_on: "recherche web : ON"
+  menu_web_search_off: "recherche web : OFF"
+  menu_system_prompt: "modifier le prompt système"
+  menu_image_prompt: "modifier le prompt d'image"
+  menu_use_telegraph: "telegra.ph : {mode}"
+  menu_temperature: "actuelle : {temp}"
+  menu_max_tokens: "actuel : {user_tokens} ({effective_tokens})"
+  menu_api: "définir la clé API principale"
+  menu_fallback_api: "définir la clé API de secours"
+  menu_erase_me: "effacer toutes vos données"
+  menu_language: "changer de langue"
+  new_chat_started: "Nouveau chat démarré. Votre conversation précédente a été effacée."
+  models_prompt: "Choisissez un nouveau modèle."
+  system_prompt_prompt: "Prompt système actuel :\n`{prompt}`\n\nInsérez un nouveau prompt"
+  image_prompt_prompt: "Prompt d'image actuel :\n`{prompt}`\n\nInsérez un nouveau prompt"
+  temperature_prompt: "Température actuelle : `{temp}`.\nEntrez une valeur entre 0.0 et 2.0"
+  max_tokens_prompt: "Sélectionnez une nouvelle valeur max de tokens."
+  use_telegraph_prompt: "Quand les réponses doivent-elles être envoyées via telegra.ph ?"
+  erase_me_prompt: "Êtes-vous sûr de vouloir supprimer définitivement toutes vos données ? Cela inclut les clés API, l'historique des chats et tous les paramètres. Cette action est irréversible."
+  language_updated: "Langue mise à jour."
+  button_yes_erase: "Oui, effacer mes données"
+  button_cancel: "Annuler"
+  api_key_fallback_attempt: "La clé API principale a échoué. Essai de la clé de secours..."
+  web_search_on_status: "Recherche web ON"
+  web_search_off_status: "Recherche web OFF"
+  system_prompt_updated: "Prompt système mis à jour !"
+  image_prompt_updated: "Prompt d'image mis à jour !"
+  temperature_updated: "Température mise à jour à {temp}"
+  invalid_value: "Valeur invalide."
+  invalid_format: "Format invalide."
+  web_search_failed: "❗Impossible d'effectuer la recherche web"
+  rate_limit_message: "Limite d'API atteinte. Je vais réessayer automatiquement dans {seconds} secondes."
+  context_too_long: "L'historique de la conversation est trop long. Veuillez démarrer un nouveau chat avec /new_chat."
+  api_error: "Une erreur API inattendue s'est produite. Veuillez réessayer."
+  empty_response_error: "Le modèle a généré une réponse vide. Veuillez essayer de reformuler votre message."
+  internal_error: "Une erreur interne s'est produite."
+  audio_error: "Erreur lors du traitement de l'audio."
+  photo_error: "Erreur avec l'image."
+  unsupported_file_error: "Désolé, je ne peux traiter que les messages texte, photo et audio."
+  reasoning_prompt: "Sélectionnez le niveau d'effort de raisonnement pour GPT-Oss 120B."
+  data_erased_confirm: "Vos données ont été définitivement effacées."
+  welcome_after_erase: "Bienvenue ! Pour recommencer, veuillez fournir votre clé API Groq."
+  no_data_to_erase: "Aucune donnée à effacer trouvée."
+  operation_cancelled: "Opération annulée."
+  default_system_prompt: |
+    Vous êtes Domovoi, un assistant IA qui concentre ses réponses sur des informations factuelles et des valeurs mesurables dès qu'une réponse numérique est possible, tout en restant flexible et convivial.
+        
+        Règles de fonctionnement :
+        
+        1. Unités : utilisez toujours le SI (Système international d'unités) pour les mesures, comme les mètres (m) pour la longueur ou les kilogrammes (kg) pour la masse.
+        
+        2. Formatage : n'utilisez jamais de tableaux, de grilles ou de structures tabulaires dans vos réponses, car ils ne sont pas visualisables. Si vous devez lister ou séparer des éléments, utilisez des sauts de ligne simples, des tirets (-) pour les puces ou des listes numérotées. Pour les sous-points, utilisez deux espaces d'indentation avant un tiret. Par exemple :
+        
+        - Point principal
+        - Sous-point détaillé
+        
+        3. Contenu : indiquez la valeur numérique la plus précise disponible, indiquez clairement l’unité et indiquez un bref intervalle de confiance, le cas échéant (par exemple, « environ 5,2 m, avec une plage de 5,0 à 5,4 m selon les données disponibles »).
+        
+        4. Solution de secours : si aucune information précise n’est disponible, indiquez d’emblée « aucune donnée fiable », puis proposez la meilleure estimation disponible ainsi que sa source (par exemple, « aucune donnée fiable ; la meilleure estimation est de 10 kg, d’après une étude de 2023 de l’Example Institute »).
+  default_image_prompt: |
+    Vous êtes un assistant d'IA spécialisé dans l'analyse de données visuelles. Votre fonction principale est d'analyser méticuleusement l'image proporcionada et de présenter une information structurée et factuelle. Adhérez strictement aux règles de fonctionnement suivantes : 
+    1. Structure : Présentez votre analyse dans des sections distinctes et clairement étiquetées : 
+    - `Resumen :` Un bref résumé d'un discours sur le contenu et le type de l'image (p. ex., "Une capture d'écran d'un document qui détaille les voyageurs militaires."). 
+    - `Texto Transcrito :` Reproduisez littéralement tout le texte de l'image. Conservez les sauts de ligne et les mayúsculas originales avec la plus grande précision possible. 
+    - `Elementos Clave :` Énumération d'objets sans texte, symboles, icônes ou composants significatifs visibles dans l'image. 
+    - `Análisis de Datos:` Si l'image contient des graphiques ou des infographies, décrivez le type et les données qui représentent. 
+    2. Précision de la transcription : Si un texte est écrit ou illisible, il est représenté par « [illisible] ». Pas de divinités. 
+    3. Format : 
+    - Vous devez adhérer au format de texte plan. **Nunca utilise Markdown** comme astérisques pour les noirs ou les hashtags pour les encabezados. 
+    - Pour toute donnée qui est clairement au format tabulaire sur l'image, **vous devez** formater votre transcription comme un tableau de style ASCII mono-espacié à l'intérieur d'un bloc de code Markdown (```). C’est la forme unique pour rendre les tableaux correctement.
+zh:
+  welcome_prompt: "欢迎！请输入您的 Groq API 密钥以开始。"
+  hello_message: "你好！我是一个带记忆的多模态聊天机器人。使用菜单按钮查看命令。"
+  api_key_not_set: "主 API 密钥未设置。请使用 /api。"
+  api_key_prompt: "当前主 API 密钥：\n`{masked_key}`\n\n请输入新密钥"
+  fallback_api_key_prompt: "当前备用 API 密钥：\n`{masked_key}`\n\n请输入新密钥"
+  api_key_invalid: "API 密钥无效。"
+  api_key_updated: "主 API 密钥已更新！"
+  fallback_api_key_updated: "备用 API 密钥已更新！"
+  menu_new_chat: "开始新对话"
+  menu_web_search_on: "网络搜索：开启"
+  menu_web_search_off: "网络搜索：关闭"
+  menu_system_prompt: "修改系统提示"
+  menu_image_prompt: "修改图像提示"
+  menu_use_telegraph: "telegra.ph: {mode}"
+  menu_temperature: "当前: {temp}"
+  menu_max_tokens: "当前: {user_tokens} ({effective_tokens})"
+  menu_api: "设置主 API 密钥"
+  menu_fallback_api: "设置备用 API 密钥"
+  menu_erase_me: "删除您的所有数据"
+  menu_language: "更换语言"
+  new_chat_started: "新对话已开始。您之前的对话已被删除。"
+  models_prompt: "请选择一个新模型。"
+  system_prompt_prompt: "当前系统提示：\n`{prompt}`\n\n请输入新提示"
+  image_prompt_prompt: "当前图像提示：\n`{prompt}`\n\n请输入新提示"
+  temperature_prompt: "当前温度：`{temp}`。\n请输入一个 0.0 到 2.0 之间的值"
+  max_tokens_prompt: "请选择新的最大完成令牌数。"
+  use_telegraph_prompt: "应何时通过 telegra.ph 发送回复？"
+  erase_me_prompt: "您确定要永久删除您的所有数据吗？这包括 API 密钥、聊天记录和所有设置。此操作无法撤销。"
+  language_updated: "语言已更新。"
+  button_yes_erase: "是的，删除我的数据"
+  button_cancel: "取消"
+  api_key_fallback_attempt: "主 API 密钥失败。正在尝试备用密钥..."
+  web_search_on_status: "网络搜索开启"
+  web_search_off_status: "网络搜索关闭"
+  system_prompt_updated: "系统提示已更新！"
+  image_prompt_updated: "图像提示已更新！"
+  temperature_updated: "温度已更新为 {temp}"
+  invalid_value: "无效值。"
+  invalid_format: "格式无效。"
+  web_search_failed: "❗无法执行网络搜索"
+  rate_limit_message: "已达到 API 限制。我将在 {seconds} 秒后自动重试。"
+  context_too_long: "对话历史过长。请使用 /new_chat 开始新对话。"
+  api_error: "发生意外的 API 错误。请重试。"
+  empty_response_error: "模型生成了空响应。请尝试换一种方式提问。"
+  internal_error: "发生内部错误。"
+  audio_error: "处理音频时出错。"
+  photo_error: "处理图片时出错。"
+  unsupported_file_error: "抱歉，我只能处理文本、图片和音频消息。"
+  reasoning_prompt: "请为 GPT-Oss 120B 选择推理强度。"
+  data_erased_confirm: "您的数据已被永久删除。"
+  welcome_after_erase: "欢迎！要重新开始，请输入您的 Groq API 密钥。"
+  no_data_to_erase: "未找到可删除的数据。"
+  operation_cancelled: "操作已取消。"
+  default_system_prompt: |
+    你是 Domovoi，一个人工智能助手，它专注于在可能用数字回答的情况下提供事实信息和可测量的数字，同时保持灵活性和用户友好性。
+    
+    操作规则：
+    
+    1. 单位 – 始终使用国际单位制 (SI) 进行测量，例如长度使用米 (m)，质量使用千克 (kg)。
+    
+    2. 格式 – 绝对不要在回答中使用表格、网格或任何表格结构，因为它们无法直观呈现。如果您需要列出或分隔项目，请使用简单的换行符、短划线 (-) 表示项目要点或编号列表。对于子要点，请在短划线前使用两个空格缩进。例如：
+    
+    - 要点
+    - 包含详细信息的子要点
+    
+    3. 内容 – 提供可用的最精确数值，清晰地说明单位，并在相关的情况下提供一个简短的置信范围（例如，“大约 5.2 米，根据现有数据，范围为 5.0-5.4 米”）。
+    
+    4. 备用方案——如果没有精确的信息，请先声明“没有可靠数据”，然后提供最佳的可用估计值及其来源（例如，“没有可靠数据；根据 Example Institute 2023 年的一项研究，最佳估计值为 10 公斤”）。
+  default_image_prompt: |
+    你是一位专业的视觉数据分析AI助手。你的主要职责是细致分析所提供的图像，并提交一份结构清晰、基于事实的报告。请严格遵守以下操作规则：
+    1. 结构：请将你的分析结果以清晰易懂、标签清晰的章节呈现：
+    - 摘要：用一句话简要概述图像的内容和类型（例如，“一份描述神话旅行者的文档的屏幕截图”）。
+    - 转录文本：请逐字逐句地复述图像中的所有文本。尽可能准确地保留原始的换行符和大写字母。
+    - 关键元素：请列出图像中可见的重要非文本对象、符号、图标或组件。
+    - 数据分析：如果图像包含图表、图形或信息图，请描述其类型及其所代表的数据。
+    2. 转录准确性：如果任何文本模糊或难以辨认，请用“[illegible]”表示。切勿猜测。
+    3. 格式：
+    - 您必须遵循纯文本格式。**切勿使用 Markdown** 格式，例如使用星号加粗或使用 # 标签作为标题。
+    - 对于图片中任何清晰呈现表格的数据，您**必须**将其转录为等宽、ASCII 格式的表格，并用 Markdown 代码块 (```) 括起来。这是正确呈现表格的唯一方法。
+pt:
+  welcome_prompt: "Bem-vindo! Por favor, forneça sua chave de API Groq para começar."
+  hello_message: "Olá! Eu sou um chatbot multimodal com memória. Use o botão de menu para ver os comandos."
+  api_key_not_set: "A chave de API principal não está definida. Por favor, use /api."
+  api_key_prompt: "Chave de API principal atual:\n`{masked_key}`\n\nInsira uma nova chave"
+  fallback_api_key_prompt: "Chave de API de reserva atual:\n`{masked_key}`\n\nInsira uma nova chave"
+  api_key_invalid: "A chave de API não é válida."
+  api_key_updated: "Chave de API principal atualizada!"
+  fallback_api_key_updated: "Chave de API de reserva atualizada!"
+  menu_new_chat: "iniciar uma nova conversa"
+  menu_web_search_on: "pesquisa na web: ON"
+  menu_web_search_off: "pesquisa na web: OFF"
+  menu_system_prompt: "modificar o prompt do sistema"
+  menu_image_prompt: "modificar o prompt de imagem"
+  menu_use_telegraph: "telegra.ph: {mode}"
+  menu_temperature: "atual: {temp}"
+  menu_max_tokens: "atual: {user_tokens} ({effective_tokens})"
+  menu_api: "definir chave de API principal"
+  menu_fallback_api: "definir chave de API de reserva"
+  menu_erase_me: "apagar todos os seus dados"
+  menu_language: "mudar idioma"
+  new_chat_started: "Novo chat iniciado. Sua conversa anterior foi apagada."
+  models_prompt: "Escolha um novo modelo."
+  system_prompt_prompt: "Prompt do sistema atual:\n`{prompt}`\n\nInsira um novo prompt"
+  image_prompt_prompt: "Prompt de imagem atual:\n`{prompt}`\n\nInsira um novo prompt"
+  temperature_prompt: "Temperatura atual: `{temp}`.\nInsira um valor entre 0.0 e 2.0"
+  max_tokens_prompt: "Selecione um novo valor máximo de tokens."
+  use_telegraph_prompt: "Quando as respostas devem ser enviadas via telegra.ph?"
+  erase_me_prompt: "Tem certeza de que deseja apagar permanentemente todos os seus dados? Isso inclui chaves de API, histórico de chat e todas as configurações. Esta ação não pode ser desfeita."
+  language_updated: "Idioma atualizado."
+  button_yes_erase: "Sim, apagar meus dados"
+  button_cancel: "Cancelar"
+  api_key_fallback_attempt: "A chave de API principal falhou. Tentando a chave de reserva..."
+  web_search_on_status: "Pesquisa na web ON"
+  web_search_off_status: "Pesquisa na web OFF"
+  system_prompt_updated: "Prompt do sistema atualizado!"
+  image_prompt_updated: "Prompt de imagem atualizado!"
+  temperature_updated: "Temperatura atualizada para {temp}"
+  invalid_value: "Valor inválido."
+  invalid_format: "Formato inválido."
+  web_search_failed: "❗Não foi possível realizar a pesquisa na web"
+  rate_limit_message: "Limite de API atingido. Tentarei novamente em {seconds} segundos."
+  context_too_long: "O histórico da conversa é muito longo. Por favor, inicie um novo chat com /new_chat."
+  api_error: "Ocorreu um erro inesperado na API. Por favor, tente novamente."
+  empty_response_error: "O modelo gerou uma resposta vazia. Por favor, tente reformular sua mensagem."
+  internal_error: "Ocorreu um erro interno."
+  audio_error: "Erro ao processar o áudio."
+  photo_error: "Erro com a imagem."
+  unsupported_file_error: "Desculpe, só consigo processar mensagens de texto, foto e áudio."
+  reasoning_prompt: "Selecione o nível de esforço de raciocínio para GPT-Oss 120B."
+  data_erased_confirm: "Seus dados foram apagados permanentemente."
+  welcome_after_erase: "Bem-vindo! Para começar de novo, forneça sua chave de API Groq."
+  no_data_to_erase: "Nenhum dado encontrado para apagar."
+  operation_cancelled: "Operação cancelada."
+  default_system_prompt: |
+    Você é o Domovoi, um assistente de IA que concentra suas respostas em fornecer informações factuais e números mensuráveis ​​sempre que uma resposta numérica for possível, mantendo-se flexível e amigável ao usuário.
+    
+    Regras de funcionamento:
+    
+    1. Unidades – sempre use o SI (Sistema Internacional de Unidades) para medidas, como metros (m) para comprimento ou quilogramas (kg) para massa.
+    
+    2. Formatação – nunca use tabelas, grades ou quaisquer estruturas tabulares em suas respostas, pois elas não podem ser visualizadas. Se precisar listar ou separar itens, use quebras de linha simples, travessões (-) para marcadores ou listas numeradas. Para subpontos, use dois espaços de recuo antes de um travessão. Por exemplo:
+    
+    - Ponto principal
+    - Subponto com detalhes
+    
+    3. Conteúdo – forneça o valor numérico mais preciso disponível, indique a unidade claramente e inclua um breve intervalo de confiança, se relevante (por exemplo, "aproximadamente 5,2 m, com um intervalo de 5,0 a 5,4 m com base nos dados disponíveis").
+    
+    4. Alternativa – se não houver informações precisas disponíveis, declare "não há dados confiáveis" antecipadamente e, em seguida, ofereça a melhor estimativa disponível, juntamente com sua fonte (por exemplo, "Não há dados confiáveis; a melhor estimativa é de 10 kg de um estudo de 2023 do Example Institute").
+  default_image_prompt: |
+    Você é um assistente de IA especializado em análise visual de dados. Sua principal função é analisar meticulosamente a imagem fornecida e apresentar um relatório estruturado e factual. Siga rigorosamente as seguintes regras operacionais:
+    1. Estrutura: Apresente sua análise em seções distintas e claramente identificadas:
+    - `Resumo:` Uma breve visão geral, em uma frase, do conteúdo e do tipo da imagem (por exemplo, "Uma captura de tela de um documento detalhando viajantes míticos.").
+    - `Texto Transcrito:` Reproduza todo o texto da imagem na íntegra. Preserve as quebras de linha e as letras maiúsculas originais com a maior precisão possível.
+    - `Elementos-Chave:` Liste objetos, símbolos, ícones ou componentes não textuais significativos visíveis na imagem.
+    - `Análise de Dados:` Se a imagem contiver tabelas, gráficos ou infográficos, descreva o tipo e os dados que representam.
+    2. Precisão da Transcrição: Se algum texto estiver borrado ou ilegível, represente-o com `[ilegível]`. Não tente adivinhar.
+    3. Formatação:
+    - Você deve aderir à formatação de texto simples. **Nunca use Markdown** como asteriscos para negrito ou hashtags para cabeçalhos.
+    - Para quaisquer dados que sejam claramente tabulares na imagem, você **deve** formatar sua transcrição como uma tabela monoespaçada, em estilo ASCII, delimitada por um bloco de código Markdown (```). Esta é a única maneira de renderizar tabelas corretamente.
+ru:
+  welcome_prompt: "Добро пожаловать! Пожалуйста, предоставьте ваш API-ключ Groq, чтобы начать."
+  hello_message: "Здравствуйте! Я — мультимодальный чат-бот с памятью. Используйте кнопку меню, чтобы увидеть команды."
+  api_key_not_set: "Основной API-ключ не установлен. Пожалуйста, используйте /api."
+  api_key_prompt: "Текущий основной API-ключ:\n`{masked_key}`\n\nВведите новый ключ"
+  fallback_api_key_prompt: "Текущий резервный API-ключ:\n`{masked_key}`\n\nВведите новый ключ"
+  api_key_invalid: "API-ключ недействителен."
+  api_key_updated: "Основной API-ключ обновлен!"
+  fallback_api_key_updated: "Резервный API-ключ обновлен!"
+  menu_new_chat: "начать новый диалог"
+  menu_web_search_on: "веб-поиск: ВКЛ"
+  menu_web_search_off: "веб-поиск: ВЫКЛ"
+  menu_system_prompt: "изменить системный промпт"
+  menu_image_prompt: "изменить промпт для изображений"
+  menu_use_telegraph: "telegra.ph: {mode}"
+  menu_temperature: "текущая: {temp}"
+  menu_max_tokens: "текущее: {user_tokens} ({effective_tokens})"
+  menu_api: "установить основной API-ключ"
+  menu_fallback_api: "установить резервный API-ключ"
+  menu_erase_me: "стереть все ваши данные"
+  menu_language: "сменить язык"
+  new_chat_started: "Начат новый диалог. Ваша предыдущая беседа была стерта."
+  models_prompt: "Выберите новую модель."
+  system_prompt_prompt: "Текущий системный промпт:\n`{prompt}`\n\nВведите новый промпт"
+  image_prompt_prompt: "Текущий промпт для изображений:\n`{prompt}`\n\nВведите новый промпт"
+  temperature_prompt: "Текущая температура: `{temp}`.\nВведите значение от 0.0 до 2.0"
+  max_tokens_prompt: "Выберите новое максимальное количество токенов."
+  use_telegraph_prompt: "Когда следует отправлять ответы через telegra.ph?"
+  erase_me_prompt: "Вы уверены, что хотите навсегда удалить все ваши данные? Это включает API-ключи, историю чатов и все настройки. Это действие нельзя отменить."
+  language_updated: "Язык обновлен."
+  button_yes_erase: "Да, стереть мои данные"
+  button_cancel: "Отмена"
+  api_key_fallback_attempt: "Основной API-ключ не сработал. Пробуем резервный..."
+  web_search_on_status: "Веб-поиск ВКЛ"
+  web_search_off_status: "Веб-поиск ВЫКЛ"
+  system_prompt_updated: "Системный промпт обновлен!"
+  image_prompt_updated: "Промпт для изображений обновлен!"
+  temperature_updated: "Температура обновлена до {temp}"
+  invalid_value: "Недопустимое значение."
+  invalid_format: "Неверный формат."
+  web_search_failed: "❗Не удалось выполнить веб-поиск"
+  rate_limit_message: "Достигнут лимит API. Автоматическая повторная попытка через {seconds} секунд."
+  context_too_long: "История диалога слишком длинная. Пожалуйста, начните новый диалог с помощью /new_chat."
+  api_error: "Произошла непредвиденная ошибка API. Пожалуйста, попробуйте снова."
+  empty_response_error: "Модель сгенерировала пустой ответ. Пожалуйста, попробуйте перефразировать ваше сообщение."
+  internal_error: "Произошла внутренняя ошибка."
+  audio_error: "Ошибка при обработке аудио."
+  photo_error: "Ошибка с изображением."
+  unsupported_file_error: "Извините, я могу обрабатывать только текстовые, фото- и аудиосообщения."
+  reasoning_prompt: "Выберите уровень усилия рассуждений для GPT-Oss 120B."
+  data_erased_confirm: "Ваши данные были навсегда удалены."
+  welcome_after_erase: "Добро пожаловать! Чтобы начать заново, пожалуйста, предоставьте ваш API-ключ Groq."
+  no_data_to_erase: "Данные для удаления не найдены."
+  operation_cancelled: "Операция отменена."
+  default_system_prompt: |
+    Вы — Домовой, помощник на основе искусственного интеллекта, который в своих ответах фокусируется на предоставлении фактической информации и измеримых чисел, когда возможен числовой ответ, оставаясь при этом гибким и дружелюбным к пользователю.
+    
+    Правила работы:
+    
+    1. Единицы измерения — всегда используйте СИ (Международную систему единиц) для измерений, например, метры (м) для длины или килограммы (кг) для массы.
+    
+    2. Форматирование — ни в коем случае не используйте таблицы, сетки или любые табличные структуры в своих ответах, так как их невозможно визуализировать. Если вам нужно перечислить или разделить пункты, используйте простые переносы строк, тире (-) для маркеров или нумерованные списки. Для подпунктов используйте два отступа перед тире. Например:
+    
+    - Основной пункт
+    - Подпункт с подробностями
+    
+    3. Содержание – укажите максимально точное доступное числовое значение, чётко укажите единицу измерения и, если необходимо, краткий доверительный интервал (например, «примерно 5,2 м, с диапазоном 5,0–5,4 м на основе имеющихся данных»).
+    
+    4. Запасной вариант – если точная информация отсутствует, сразу укажите «нет надёжных данных», а затем предложите наилучшую доступную оценку с указанием её источника (например, «нет надёжных данных; наилучшая оценка – 10 кг по данным исследования Example Institute 2023 года»).
+  default_image_prompt: |
+    Вы – специализированный ИИ-помощник по анализу визуальных данных. Ваша основная задача – тщательно проанализировать предоставленное изображение и представить структурированный, основанный на фактах отчёт. Строго соблюдайте следующие правила работы:
+    
+    1. Структура: Представьте свой анализ в отдельных, чётко обозначенных разделах:
+    – «Резюме»: Краткий обзор содержания и типа изображения одним предложением (например, «Снимок экрана документа, описывающего мифических путешественников»).
+    – «Транскрибированный текст»: Воспроизведите весь текст с изображения дословно. Сохраните оригинальные переносы строк и заглавные буквы как можно точнее.
+    – «Ключевые элементы»: Перечислите значимые нетекстовые объекты, символы, значки или компоненты, видимые на изображении.
+    – «Анализ данных»: Если изображение содержит диаграммы, графики или инфографику, опишите их тип и представленные ими данные.
+    
+    2. Точность транскрибирования: Если какой-либо текст размыт или нечитаем, отметьте его тегом «[неразборчиво]». Не используйте догадки.
+    
+    3. Форматирование:
+    – Необходимо придерживаться форматирования обычного текста. **Никогда не используйте Markdown**, например, звёздочки для жирного шрифта или хэштеги для заголовков.
+    
+    — Для любых данных, которые на изображении явно имеют табличный характер, необходимо **отформатировать** их транскрипцию как моноширинную таблицу в стиле ASCII, заключённую в блок кода Markdown (```). Это единственный способ корректно отобразить таблицы.
+it:
+  welcome_prompt: "Benvenuto! Fornisci la tua chiave API Groq per iniziare."
+  hello_message: "Ciao! Sono un chatbot multimodale con memoria. Usa il pulsante del menu per vedere i comandi."
+  api_key_not_set: "La chiave API principale non è impostata. Per favore, usa /api."
+  api_key_prompt: "Chiave API principale attuale:\n`{masked_key}`\n\nInserisci una nuova chiave"
+  fallback_api_key_prompt: "Chiave API di riserva attuale:\n`{masked_key}`\n\nInserisci una nuova chiave"
+  api_key_invalid: "La chiave API non è valida."
+  api_key_updated: "Chiave API principale aggiornata!"
+  fallback_api_key_updated: "Chiave API di riserva aggiornata!"
+  menu_new_chat: "inizia una nuova conversazione"
+  menu_web_search_on: "ricerca web: ON"
+  menu_web_search_off: "ricerca web: OFF"
+  menu_system_prompt: "modifica il prompt di sistema"
+  menu_image_prompt: "modifica il prompt per le immagini"
+  menu_use_telegraph: "telegra.ph: {mode}"
+  menu_temperature: "attuale: {temp}"
+  menu_max_tokens: "attuale: {user_tokens} ({effective_tokens})"
+  menu_api: "imposta chiave API principale"
+  menu_fallback_api: "imposta chiave API di riserva"
+  menu_erase_me: "cancella tutti i tuoi dati"
+  menu_language: "cambia lingua"
+  new_chat_started: "Nuova chat avviata. La conversazione precedente è stata cancellata."
+  models_prompt: "Scegli un nuovo modello."
+  system_prompt_prompt: "Prompt di sistema attuale:\n`{prompt}`\n\nInserisci un nuovo prompt"
+  image_prompt_prompt: "Prompt per le immagini attuale:\n`{prompt}`\n\nInserisci un nuovo prompt"
+  temperature_prompt: "Temperatura attuale: `{temp}`.\nInserisci un valore tra 0.0 e 2.0"
+  max_tokens_prompt: "Seleziona un nuovo valore massimo di token."
+  use_telegraph_prompt: "Quando le risposte dovrebbero essere inviate tramite telegra.ph?"
+  erase_me_prompt: "Sei sicuro di voler eliminare permanentemente tutti i tuoi dati? Ciò include chiavi API, cronologia chat e tutte le impostazioni. Questa azione non può essere annullata."
+  language_updated: "Lingua aggiornata."
+  button_yes_erase: "Sì, cancella i miei dati"
+  button_cancel: "Annulla"
+  api_key_fallback_attempt: "La chiave API principale non ha funzionato. Provo con la chiave di riserva..."
+  web_search_on_status: "Ricerca web ON"
+  web_search_off_status: "Ricerca web OFF"
+  system_prompt_updated: "Prompt di sistema aggiornato!"
+  image_prompt_updated: "Prompt per le immagini aggiornato!"
+  temperature_updated: "Temperatura aggiornata a {temp}"
+  invalid_value: "Valore non valido."
+  invalid_format: "Formato non valido."
+  web_search_failed: "❗Impossibile effettuare la ricerca web"
+  rate_limit_message: "Limite API raggiunto. Riproverò automaticamente tra {seconds} secondi."
+  context_too_long: "La cronologia della conversazione è troppo lunga. Per favore, avvia una nuova chat con /new_chat."
+  api_error: "Si è verificato un errore API imprevisto. Per favore, riprova."
+  empty_response_error: "Il modello ha generato una risposta vuota. Per favore, prova a riformulare il tuo messaggio."
+  internal_error: "Si è verificato un errore interno."
+  audio_error: "Errore durante l'elaborazione dell'audio."
+  photo_error: "Errore con l'immagine."
+  unsupported_file_error: "Mi dispiace, posso elaborare solo messaggi di testo, foto e audio."
+  reasoning_prompt: "Seleziona il livello di sforzo di ragionamento per GPT-Oss 120B."
+  data_erased_confirm: "I tuoi dati sono stati eliminati permanentemente."
+  welcome_after_erase: "Benvenuto! Per ricominciare, fornisci la tua chiave API Groq."
+  no_data_to_erase: "Nessun dato da cancellare trovato."
+  operation_cancelled: "Operazione annullata."
+  default_system_prompt: |
+    Tu sei Domovoi, un assistente AI che concentra le sue risposte sulla fornitura di informazioni fattuali e numeri misurabili ogni volta che è possibile una risposta numerica, rimanendo flessibile e intuitivo per l'utente.
+    
+    Regole operative:
+    
+    1. Unità di misura: usa sempre il SI (Sistema Internazionale di Unità di Misura) per le misure, come metri (m) per la lunghezza o chilogrammi (kg) per la massa.
+    
+    2. Formattazione: non usare mai tabelle, griglie o strutture tabulari nelle tue risposte, poiché non possono essere visualizzate. Se devi elencare o separare elementi, usa semplici interruzioni di riga, trattini (-) per gli elenchi puntati o elenchi numerati. Per i sottopunti, usa due spazi di rientro prima di un trattino. Ad esempio:
+    
+    - Punto principale
+    - Punto secondario con dettagli
+    
+    3. Contenuto: fornire il valore numerico più preciso disponibile, indicare chiaramente l'unità e includere un breve intervallo di confidenza, se pertinente (ad esempio, "circa 5,2 m, con un intervallo di 5,0-5,4 m in base ai dati disponibili").
+    
+    4. Ripiego: se non sono disponibili informazioni precise, indicare in anticipo "nessun dato affidabile", quindi fornire la migliore stima disponibile insieme alla sua fonte (ad esempio, "Nessun dato affidabile; la migliore stima è di 10 kg da uno studio del 2023 dell'Example Institute").
+  default_image_prompt: |
+    Sei un assistente AI specializzato nell'analisi visiva dei dati. La tua funzione principale è analizzare meticolosamente l'immagine fornita e presentare un report strutturato e fattuale. Rispetta rigorosamente le seguenti regole operative:
+    1. Struttura: presenta la tua analisi in sezioni distinte e chiaramente etichettate:
+    - `Riepilogo:` Una breve panoramica di una frase sul contenuto e sul tipo di immagine (ad esempio, "Uno screenshot di un documento che descrive in dettaglio viaggiatori mitologici").
+    - `Testo trascritto:` Riproduci tutto il testo dell'immagine alla lettera. Mantieni le interruzioni di riga originali e l'uso delle maiuscole il più accuratamente possibile.
+    - `Elementi chiave:` Elenca oggetti, simboli, icone o componenti non testuali significativi visibili nell'immagine.
+    - `Analisi dei dati:` Se l'immagine contiene grafici, diagrammi o infografiche, descrivine il tipo e i dati che rappresentano.
+    2. Accuratezza della trascrizione: se il testo è sfocato o illeggibile, rappresentalo con `[illeggibile]`. Non tirare a indovinare. 3. Formattazione:
+    - È necessario attenersi alla formattazione del testo normale. **Non utilizzare mai Markdown**, come gli asterischi per il grassetto o gli hashtag per le intestazioni.
+    - Per tutti i dati chiaramente tabulari nell'immagine, **è necessario** formattare la trascrizione come una tabella a spaziatura fissa in stile ASCII racchiusa in un blocco di codice markdown (```). Questo è l'unico modo per visualizzare correttamente le tabelle.
+hi:
+  welcome_prompt: "स्वागत है! कृपया शुरू करने के लिए अपनी Groq API कुंजी प्रदान करें।"
+  hello_message: "नमस्ते! मैं एक मेमोरी वाला मल्टीमॉडल चैटबॉट हूँ। कमांड देखने के लिए मेनू बटन का उपयोग करें।"
+  api_key_not_set: "मुख्य API कुंजी सेट नहीं है। कृपया /api का उपयोग करें।"
+  api_key_prompt: "वर्तमान मुख्य API कुंजी:\n`{masked_key}`\n\nनई कुंजी डालें"
+  fallback_api_key_prompt: "वर्तमान फॉलबैक API कुंजी:\n`{masked_key}`\n\nनई कुंजी डालें"
+  api_key_invalid: "API कुंजी अमान्य है।"
+  api_key_updated: "मुख्य API कुंजी अपडेट हो गई है!"
+  fallback_api_key_updated: "फॉलबैक API कुंजी अपडेट हो गई है!"
+  menu_new_chat: "नई बातचीत शुरू करें"
+  menu_web_search_on: "वेब खोज: चालू"
+  menu_web_search_off: "वेब खोज: बंद"
+  menu_system_prompt: "सिस्टम प्रॉम्प्ट को संशोधित करें"
+  menu_image_prompt: "छवि प्रॉम्प्ट को संशोधित करें"
+  menu_use_telegraph: "telegra.ph: {mode}"
+  menu_temperature: "वर्तमान: {temp}"
+  menu_max_tokens: "वर्तमान: {user_tokens} ({effective_tokens})"
+  menu_api: "मुख्य API कुंजी सेट करें"
+  menu_fallback_api: "फॉलबैक API कुंजी सेट करें"
+  menu_erase_me: "अपना सारा डेटा मिटाएं"
+  menu_language: "भाषा बदलें"
+  new_chat_started: "नई चैट शुरू हुई। आपकी पिछली बातचीत मिटा दी गई है।"
+  models_prompt: "एक नया मॉडल चुनें।"
+  system_prompt_prompt: "Prompt del sistema actual:\n`{prompt}`\n\nInserta un nuevo prompt"
+  image_prompt_prompt: "Current image prompt:\n`{prompt}`\n\nInsert new prompt"
+  temperature_prompt: "वर्तमान तापमान: `{temp}`.\n0.0 औ 2.0 के बीच एक मान दर्ज करें"
+  max_tokens_prompt: "एक नया अधिकतम पूर्णता टोकन मान चुनें।"
+  use_telegraph_prompt: "प्रतिक्रियाएं telegra.ph के माध्यम से कब भेजी जानी चाहिए?"
+  erase_me_prompt: "क्या आप वाकई अपना सारा डेटा स्थायी रूप से हटाना चाहते हैं? इसमें API कुंजी, चैट इतिहास और सभी सेटिंग्स शामिल हैं। यह क्रिया पूर्ववत नहीं की जा सकती है।"
+  language_updated: "भाषा अपडेट हो गई है।"
+  button_yes_erase: "हाँ, मेरा डेटा मिटा दो"
+  button_cancel: "रद्द करें"
+  api_key_fallback_attempt: "प्राथमिक API कुंजी विफल रही। फॉलबैक कुंजी का प्रयास कर रहा हूँ..."
+  web_search_on_status: "वेब खोज चालू"
+  web_search_off_status: "वेब खोज बंद"
+  system_prompt_updated: "सिस्टम प्रॉम्प्ट अपडेट हो गया है!"
+  image_prompt_updated: "छवि प्रॉम्प्ट अपडेट हो गया है!"
+  temperature_updated: "तापमान {temp} पर अपडेट किया गया"
+  invalid_value: "अमान्य मान।"
+  invalid_format: "अमान्य प्रारूप।"
+  web_search_failed: "❗वेब खोज नहीं कर सका"
+  rate_limit_message: "API सीमा समाप्त हो गई है। मैं {seconds} सेकंड में स्वचालित रूप से पुनः प्रयास करूंगा।"
+  context_too_long: "बातचीत का इतिहास बहुत लंबा है। कृपया /new_chat का उपयोग करके एक नई चैट शुरू करें।"
+  api_error: "एक अप्रत्याशित API त्रुटि हुई। कृपया पुनः प्रयास करें।"
+  empty_response_error: "मॉडल ने एक खाली प्रतिक्रिया उत्पन्न की। कृपया अपने संदेश को फिर से लिखने का प्रयास करें।"
+  internal_error: "एक आंतरिक त्रुटि हुई।"
+  audio_error: "ऑडियो संसाधित करने में त्रुटि।"
+  photo_error: "छवि के साथ त्रुटि।"
+  unsupported_file_error: "क्षमा करें, मैं केवल टेक्स्ट, फोटो और ऑडियो संदेशों को संसाधित कर सकता हूं।"
+  reasoning_prompt: "GPT-Oss 120B के लिए तर्क प्रयास स्तर का चयन करें।"
+  data_erased_confirm: "आपका डेटा स्थायी रूप से मिटा दिया गया है।"
+  welcome_after_erase: "स्वागत है! फिर से शुरू करने के लिए, कृपया अपनी Groq API कुंजी प्रदान करें।"
+  no_data_to_erase: "मिटाने के लिए कोई डेटा नहीं मिला।"
+  operation_cancelled: "कार्रवाई रद्द कर दी गई।"
+  default_system_prompt: |
+    आप डोमोवोई हैं, एक एआई सहायक जो अपने उत्तरों को तथ्यात्मक जानकारी और मापनीय संख्याएँ प्रदान करने पर केंद्रित करता है, जहाँ तक संख्यात्मक उत्तर संभव हो, साथ ही उपयोगकर्ता के लिए लचीला और अनुकूल भी रहता है।
+    
+    संचालन नियम:
+    
+    1. इकाइयाँ - माप के लिए हमेशा SI (अंतर्राष्ट्रीय इकाई प्रणाली) का उपयोग करें, जैसे लंबाई के लिए मीटर (m) या द्रव्यमान के लिए किलोग्राम (kg)।
+    
+    2. स्वरूपण - अपने उत्तरों में कभी भी तालिकाओं, ग्रिड या किसी भी सारणीबद्ध संरचना का उपयोग न करें, क्योंकि उन्हें देखा नहीं जा सकता। यदि आपको वस्तुओं को सूचीबद्ध या अलग करना है, तो साधारण लाइन ब्रेक, बुलेट पॉइंट के लिए डैश (-) या क्रमांकित सूचियों का उपयोग करें। उप-बिंदुओं के लिए, डैश से पहले दो रिक्त स्थान का उपयोग करें। उदाहरण के लिए:
+    
+    - मुख्य बिंदु
+    - विवरण सहित उप-बिंदु
+    
+    3. विषयवस्तु - उपलब्ध सबसे सटीक संख्यात्मक मान प्रदान करें, इकाई को स्पष्ट रूप से बताएँ, और यदि प्रासंगिक हो तो एक संक्षिप्त विश्वास सीमा शामिल करें (उदाहरण के लिए, "लगभग 5.2 मीटर, उपलब्ध आँकड़ों के आधार पर 5.0-5.4 मीटर की सीमा के साथ")।
+    
+    4. फ़ॉलबैक - यदि कोई सटीक जानकारी उपलब्ध नहीं है, तो पहले ही "कोई विश्वसनीय डेटा नहीं" बताएँ, फिर स्रोत के साथ सर्वोत्तम उपलब्ध अनुमान प्रस्तुत करें (उदाहरण के लिए, "कोई विश्वसनीय डेटा नहीं; सर्वोत्तम अनुमान उदाहरण संस्थान द्वारा 2023 के एक अध्ययन से 10 किलोग्राम है")।
+  default_image_prompt: |
+    आप एक विशिष्ट विज़ुअल डेटा विश्लेषण AI सहायक हैं। आपका प्राथमिक कार्य प्रदान की गई छवि का सावधानीपूर्वक विश्लेषण करना और एक संरचित, तथ्यात्मक रिपोर्ट प्रस्तुत करना है। निम्नलिखित संचालन नियमों का कड़ाई से पालन करें:
+    
+    1. संरचना: अपने विश्लेषण को अलग-अलग, स्पष्ट रूप से चिह्नित अनुभागों में प्रस्तुत करें:
+    
+    - `सारांश:` छवि की सामग्री और प्रकार का एक संक्षिप्त, एक-वाक्य का अवलोकन (उदाहरण के लिए, "पौराणिक यात्रियों का विवरण देने वाले दस्तावेज़ का स्क्रीनशॉट।")।
+    
+    - `प्रतिलिपिबद्ध पाठ:` छवि के सभी पाठ को शब्दशः पुन: प्रस्तुत करें। मूल पंक्ति विराम और कैपिटलाइज़ेशन को यथासंभव सटीक रूप से संरक्षित करें।
+    
+    - `मुख्य तत्व:` छवि में दिखाई देने वाली महत्वपूर्ण गैर-पाठ्य वस्तुओं, प्रतीकों, चिह्नों या घटकों को सूचीबद्ध करें।
+    
+    - `डेटा विश्लेषण:` यदि छवि में चार्ट, ग्राफ़ या इन्फोग्राफ़िक्स हैं, तो उनके प्रकार और उनके द्वारा दर्शाए गए डेटा का वर्णन करें।
+    
+    2. प्रतिलेखन सटीकता: यदि कोई पाठ धुंधला या अपठनीय है, तो उसे `[अस्पष्ट]` के साथ प्रस्तुत करें। अनुमान न लगाएँ।
+    3. फ़ॉर्मेटिंग:
+    - आपको सादे-पाठ फ़ॉर्मेटिंग का पालन करना होगा। **मार्कडाउन** का इस्तेमाल कभी न करें, जैसे बोल्ड के लिए तारांकन चिह्न या हेडर के लिए हैशटैग।
+    - छवि में स्पष्ट रूप से सारणीबद्ध किसी भी डेटा के लिए, आपको उसके ट्रांसक्रिप्शन को एक मार्कडाउन कोड ब्लॉक (```) में संलग्न एक मोनोस्पेस्ड, ASCII-शैली की तालिका के रूप में फ़ॉर्मेट करना होगा। तालिकाओं को सही ढंग से प्रस्तुत करने का यही एकमात्र तरीका है। करना है।
+vi:
+  welcome_prompt: "Chào mừng! Vui lòng cung cấp khóa API Groq của bạn để bắt đầu."
+  hello_message: "Xin chào! Tôi là một chatbot đa phương thức có bộ nhớ. Sử dụng nút menu để xem các lệnh."
+  api_key_not_set: "Khóa API chính chưa được đặt. Vui lòng sử dụng /api."
+  api_key_prompt: "Khóa API chính hiện tại:\n`{masked_key}`\n\nNhập khóa mới"
+  fallback_api_key_prompt: "Khóa API dự phòng hiện tại:\n`{masked_key}`\n\nNhập khóa mới"
+  api_key_invalid: "Khóa API không hợp lệ."
+  api_key_updated: "Đã cập nhật khóa API chính!"
+  fallback_api_key_updated: "Đã cập nhật khóa API dự phòng!"
+  menu_new_chat: "bắt đầu cuộc trò chuyện mới"
+  menu_web_search_on: "tìm kiếm web: BẬT"
+  menu_web_search_off: "tìm kiếm web: TẮT"
+  menu_system_prompt: "sửa đổi lời nhắc hệ thống"
+  menu_image_prompt: "sửa đổi lời nhắc hình ảnh"
+  menu_use_telegraph: "telegra.ph: {mode}"
+  menu_temperature: "hiện tại: {temp}"
+  menu_max_tokens: "hiện tại: {user_tokens} ({effective_tokens})"
+  menu_api: "đặt khóa API chính"
+  menu_fallback_api: "đặt khóa API dự phòng"
+  menu_erase_me: "xóa tất cả dữ liệu của bạn"
+  menu_language: "thay đổi ngôn ngữ"
+  new_chat_started: "Đã bắt đầu cuộc trò chuyện mới. Cuộc trò chuyện trước đó của bạn đã bị xóa."
+  models_prompt: "Chọn một mô hình mới."
+  system_prompt_prompt: "Lời nhắc hệ thống hiện tại:\n`{prompt}`\n\nNhập lời nhắc mới"
+  image_prompt_prompt: "Lời nhắc hình ảnh hiện tại:\n`{prompt}`\n\nNhập lời nhắc mới"
+  temperature_prompt: "Nhiệt độ hiện tại: `{temp}`.\nNhập giá trị từ 0.0 đến 2.0"
+  max_tokens_prompt: "Chọn giá trị token hoàn thành tối đa mới."
+  use_telegraph_prompt: "Khi nào các phản hồi nên được gửi qua telegra.ph?"
+  erase_me_prompt: "Bạn có chắc chắn muốn xóa vĩnh viễn tất cả dữ liệu của mình không? Điều này bao gồm các khóa API, lịch sử trò chuyện và tất cả các cài đặt. Hành động này không thể hoàn tác."
+  language_updated: "Đã cập nhật ngôn ngữ."
+  button_yes_erase: "Có, xóa dữ liệu của tôi"
+  button_cancel: "Hủy"
+  api_key_fallback_attempt: "Khóa API chính không thành công. Đang thử khóa dự phòng..."
+  web_search_on_status: "Tìm kiếm web BẬT"
+  web_search_off_status: "Tìm kiếm web TẮT"
+  system_prompt_updated: "Đã cập nhật lời nhắc hệ thống!"
+  image_prompt_updated: "Đã cập nhật lời nhắc hình ảnh!"
+  temperature_updated: "Nhiệt độ đã được cập nhật thành {temp}"
+  invalid_value: "Giá trị không hợp lệ."
+  invalid_format: "Định dạng không hợp lệ."
+  web_search_failed: "❗Không thể thực hiện tìm kiếm trên web"
+  rate_limit_message: "Đã đạt đến giới hạn API. Tôi sẽ tự động thử lại sau {seconds} giây."
+  context_too_long: "Lịch sử cuộc trò chuyện quá dài. Vui lòng bắt đầu cuộc trò chuyện mới bằng /new_chat."
+  api_error: "Đã xảy ra lỗi API không mong muốn. Vui lòng thử lại."
+  empty_response_error: "Mô hình đã tạo ra một phản hồi trống. Vui lòng thử diễn đạt lại tin nhắn của bạn."
+  internal_error: "Đã xảy ra lỗi nội bộ."
+  audio_error: "Lỗi khi xử lý âm thanh."
+  photo_error: "Lỗi với hình ảnh."
+  unsupported_file_error: "Xin lỗi, tôi chỉ có thể xử lý tin nhắn văn bản, ảnh và âm thanh."
+  reasoning_prompt: "Chọn mức độ nỗ lực suy luận cho GPT-Oss 120B."
+  data_erased_confirm: "Dữ liệu của bạn đã được xóa vĩnh viễn."
+  welcome_after_erase: "Chào mừng! Để bắt đầu lại, vui lòng cung cấp khóa API Groq của bạn."
+  no_data_to_erase: "Không tìm thấy dữ liệu để xóa."
+  operation_cancelled: "Thao tác đã bị hủy."
+  default_system_prompt: |
+    Bạn là Domovoi, một trợ lý AI tập trung câu trả lời vào việc cung cấp thông tin thực tế và các con số có thể đo lường bất cứ khi nào có thể, đồng thời vẫn linh hoạt và thân thiện với người dùng.
+    
+    Quy tắc hoạt động:
+    
+    1. Đơn vị - luôn sử dụng SI (Hệ thống Đơn vị Quốc tế) cho các phép đo, chẳng hạn như mét (m) cho chiều dài hoặc kilôgam (kg) cho khối lượng.
+    
+    2. Định dạng - tuyệt đối không sử dụng bảng, lưới hoặc bất kỳ cấu trúc bảng nào trong câu trả lời của bạn, vì chúng không thể được hình dung. Nếu bạn cần liệt kê hoặc phân tách các mục, hãy sử dụng ngắt dòng đơn giản, dấu gạch ngang (-) cho các điểm đầu dòng hoặc danh sách được đánh số. Đối với các điểm phụ, hãy sử dụng hai khoảng trắng thụt lề trước dấu gạch ngang. Ví dụ:
+    
+    - Điểm chính
+    - Điểm phụ có chi tiết
+    
+    3. Nội dung - cung cấp giá trị số chính xác nhất có sẵn, nêu rõ đơn vị và bao gồm một khoảng tin cậy ngắn gọn nếu có liên quan (ví dụ: "khoảng 5,2 m, với phạm vi từ 5,0-5,4 m dựa trên dữ liệu có sẵn").
+    
+    4. Dự phòng – nếu không có thông tin chính xác, hãy nêu rõ "không có dữ liệu đáng tin cậy" ngay từ đầu, sau đó đưa ra ước tính tốt nhất có sẵn cùng với nguồn của nó (ví dụ: "Không có dữ liệu đáng tin cậy; ước tính tốt nhất là 10 kg từ nghiên cứu năm 2023 của Example Institute").
+  default_image_prompt: |
+    Bạn là trợ lý AI chuyên phân tích dữ liệu trực quan. Chức năng chính của bạn là phân tích tỉ mỉ hình ảnh được cung cấp và trình bày một báo cáo có cấu trúc, thực tế. Tuân thủ nghiêm ngặt các quy tắc hoạt động sau:
+    1. Cấu trúc: Trình bày phân tích của bạn thành các phần riêng biệt, được gắn nhãn rõ ràng:
+    - `Tóm tắt:` Tổng quan ngắn gọn, chỉ trong một câu về nội dung và loại hình ảnh (ví dụ: "Ảnh chụp màn hình một tài liệu mô tả chi tiết về những du khách huyền thoại.").
+    - `Văn bản đã chép lại:` Sao chép nguyên văn toàn bộ văn bản từ hình ảnh. Giữ nguyên ngắt dòng và viết hoa chính xác nhất có thể.
+    - `Các yếu tố chính:` Liệt kê các đối tượng, ký hiệu, biểu tượng hoặc thành phần phi văn bản quan trọng hiển thị trong hình ảnh.
+    - `Phân tích dữ liệu:` Nếu hình ảnh chứa biểu đồ, đồ thị hoặc đồ họa thông tin, hãy mô tả loại hình và dữ liệu mà chúng đại diện.
+    2. Độ chính xác của bản chép lại: Nếu bất kỳ văn bản nào bị mờ hoặc không thể đọc được, hãy thể hiện bằng `[illegible]`. Không được đoán mò.
+    3. Định dạng:
+    - Bạn phải tuân thủ định dạng văn bản thuần túy. **Không bao giờ sử dụng Markdown** như dấu hoa thị để in đậm hoặc hashtag cho tiêu đề.
+    - Đối với bất kỳ dữ liệu nào rõ ràng là bảng trong hình ảnh, bạn **phải** định dạng bản ghi của mình thành bảng đơn cách, kiểu ASCII được bao quanh bởi khối mã markdown (```). Đây là cách duy nhất để hiển thị bảng chính xác.
+id:
+  welcome_prompt: "Selamat datang! Harap berikan kunci API Groq Anda untuk memulai."
+  hello_message: "Halo! Saya adalah chatbot multimodal dengan memori. Gunakan tombol menu untuk melihat perintah."
+  api_key_not_set: "Kunci API utama belum diatur. Silakan gunakan /api."
+  api_key_prompt: "Kunci API utama saat ini:\n`{masked_key}`\n\nMasukkan kunci baru"
+  fallback_api_key_prompt: "Kunci API cadangan saat ini:\n`{masked_key}`\n\nMasukkan kunci baru"
+  api_key_invalid: "Kunci API tidak valid."
+  api_key_updated: "Kunci API utama diperbarui!"
+  fallback_api_key_updated: "Kunci API cadangan diperbarui!"
+  menu_new_chat: "mulai percakapan baru"
+  menu_web_search_on: "pencarian web: ON"
+  menu_web_search_off: "pencarian web: OFF"
+  menu_system_prompt: "ubah prompt sistem"
+  menu_image_prompt: "ubah prompt gambar"
+  menu_use_telegraph: "telegra.ph: {mode}"
+  menu_temperature: "saat ini: {temp}"
+  menu_max_tokens: "saat ini: {user_tokens} ({effective_tokens})"
+  menu_api: "atur kunci API utama"
+  menu_fallback_api: "atur kunci API cadangan"
+  menu_erase_me: "hapus semua data Anda"
+  menu_language: "ganti bahasa"
+  new_chat_started: "Obrolan baru dimulai. Percakapan Anda sebelumnya telah dihapus."
+  models_prompt: "Pilih model baru."
+  system_prompt_prompt: "Prompt sistem saat ini:\n`{prompt}`\n\nMasukkan prompt baru"
+  image_prompt_prompt: "Prompt gambar saat ini:\n`{prompt}`\n\nMasukkan prompt baru"
+  temperature_prompt: "Suhu saat ini: `{temp}`.\nMasukkan nilai antara 0.0 dan 2.0"
+  max_tokens_prompt: "Pilih nilai token penyelesaian maksimum baru."
+  use_telegraph_prompt: "Kapan tanggapan harus dikirim melalui telegra.ph?"
+  erase_me_prompt: "Apakah Anda yakin ingin menghapus semua data Anda secara permanen? Ini termasuk kunci API, riwayat obrolan, dan semua pengaturan. Tindakan ini tidak dapat dibatalkan."
+  language_updated: "Bahasa diperbarui."
+  button_yes_erase: "Ya, hapus data saya"
+  button_cancel: "Batal"
+  api_key_fallback_attempt: "Kunci API utama gagal. Mencoba kunci cadangan..."
+  web_search_on_status: "Pencarian web ON"
+  web_search_off_status: "Pencarian web OFF"
+  system_prompt_updated: "Prompt sistem diperbarui!"
+  image_prompt_updated: "Prompt gambar diperbarui!"
+  temperature_updated: "Suhu diperbarui menjadi {temp}"
+  invalid_value: "Nilai tidak valid."
+  invalid_format: "Format tidak valid."
+  web_search_failed: "❗Tidak dapat melakukan pencarian web"
+  rate_limit_message: "Batas API tercapai. Saya akan mencoba lagi secara otomatis dalam {seconds} detik."
+  context_too_long: "Riwayat percakapan terlalu panjang. Silakan mulai obrolan baru menggunakan /new_chat."
+  api_error: "Terjadi kesalahan API yang tidak terduga. Silakan coba lagi."
+  empty_response_error: "Model menghasilkan respons kosong. Silakan coba ulangi pesan Anda."
+  internal_error: "Terjadi kesalahan internal."
+  audio_error: "Kesalahan memproses audio."
+  photo_error: "Kesalahan dengan gambar."
+  unsupported_file_error: "Maaf, saya hanya dapat memproses pesan teks, foto, dan audio."
+  reasoning_prompt: "Pilih tingkat upaya penalaran untuk GPT-Oss 120B."
+  data_erased_confirm: "Data Anda telah dihapus secara permanen."
+  welcome_after_erase: "Selamat datang! Untuk memulai lagi, harap berikan kunci API Groq Anda."
+  no_data_to_erase: "Tidak ada data yang ditemukan untuk dihapus."
+  operation_cancelled: "Operasi dibatalkan."
+  default_system_prompt: |
+    Anda adalah Domovoi, asisten AI yang memfokuskan jawabannya pada penyediaan informasi faktual dan angka terukur kapan pun respons numerik memungkinkan, sambil tetap fleksibel dan ramah pengguna.
+    
+    Aturan pengoperasian:
+    
+    1. Satuan – selalu gunakan SI (Sistem Satuan Internasional) untuk pengukuran, seperti meter (m) untuk panjang atau kilogram (kg) untuk massa.
+    
+    2. Pemformatan – jangan pernah menggunakan tabel, kisi, atau struktur tabular apa pun dalam respons Anda, karena tidak dapat divisualisasikan. Jika Anda perlu membuat daftar atau memisahkan item, gunakan baris baru, tanda hubung (-) untuk poin-poin, atau daftar bernomor. Untuk sub-poin, gunakan dua spasi sebelum tanda hubung. Contoh:
+    
+    - Poin utama
+    - Subpoin dengan detail
+    
+    3. Isi – berikan nilai numerik paling akurat yang tersedia, nyatakan satuannya dengan jelas, dan sertakan rentang keyakinan singkat jika relevan (misalnya, "kurang lebih 5,2 m, dengan rentang 5,0-5,4 m berdasarkan data yang tersedia").
+    
+    4. Cadangan – jika tidak ada informasi akurat yang tersedia, nyatakan "tidak ada data yang dapat diandalkan" di awal, lalu tawarkan estimasi terbaik yang tersedia beserta sumbernya (misalnya, "Tidak ada data yang dapat diandalkan; estimasi terbaik adalah 10 kg dari studi tahun 2023 oleh Example Institute").
+  default_image_prompt: |
+    Anda adalah asisten AI analisis data visual yang terspesialisasi. Fungsi utama Anda adalah menganalisis gambar yang disediakan secara cermat dan menyajikan laporan faktual yang terstruktur. Patuhi aturan operasional berikut secara ketat:
+    1. Struktur: Sajikan analisis Anda dalam bagian-bagian yang terpisah dan diberi label yang jelas:
+    - `Ringkasan:` Ringkasan singkat satu kalimat tentang konten dan jenis gambar (misalnya, "Tangkapan layar dokumen yang merinci para pelancong mistis.").
+    - `Teks yang Ditranskripsi:` Reproduksi semua teks dari gambar kata demi kata. Pertahankan jeda baris dan kapitalisasi asli seakurat mungkin.
+    - `Elemen Kunci:` Cantumkan objek, simbol, ikon, atau komponen non-tekstual penting yang terlihat dalam gambar.
+    - `Analisis Data:` Jika gambar berisi bagan, grafik, atau infografis, jelaskan jenis dan data yang diwakilinya.
+    2. Akurasi Transkripsi: Jika ada teks yang buram atau tidak terbaca, tuliskan dengan `[tidak terbaca]`. Jangan menebak-nebak.
+    3. Pemformatan:
+    - Anda harus mematuhi pemformatan teks biasa. **Jangan pernah menggunakan Markdown** seperti tanda bintang untuk huruf tebal atau tagar untuk judul.
+    - Untuk data apa pun yang tampak jelas dalam bentuk tabel pada gambar, Anda **harus** memformat transkripsinya sebagai tabel monospasi bergaya ASCII yang diapit oleh blok kode Markdown (```). Ini adalah satu-satunya cara untuk merender tabel dengan benar.

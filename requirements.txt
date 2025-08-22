@@ -1,6 +1,6 @@
 python-telegram-bot
-PyYAML
 groq
+pyyaml
 ddgs
-telegraph
-markdown2
+markdown-it-py
+telegraph[aio]
