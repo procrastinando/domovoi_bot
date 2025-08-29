@@ -51,13 +51,13 @@ The easiest way to get started is with Docker.
 **Setup:**
 
 1.  Create a `.env` file in the same directory and add your Telegram token:
-    '''
+    ```
     TELEGRAM_TOKEN="YOUR_TELEGRAM_BOT_TOKEN_HERE"
-    '''
+    ```
 2.  Download the `language.yaml` file from the repository and place it in the same directory.
 3.  Create a `docker-compose.yml` file with the following content:
 
-'''yaml
+```yaml
 services:
   domovoi_bot:
     # build from source if you have custom changes:
@@ -74,13 +74,13 @@ services:
 
 volumes:
   domovoi_bot_data:
-'''
+```
 
 **Run:**
 
-'''bash
+```bash
 docker-compose up -d
-'''
+```
 
 ### 2. Manual Installation
 
@@ -94,35 +94,35 @@ docker-compose up -d
 #### Installation and Setup
 
 1.  **Clone the Repository**
-    '''bash
+    ```bash
     git clone https://github.com/procrastinando/domovoi_bot.git
     cd domovoi_bot
-    '''
+    ```
 
 2.  **Create and Activate a Virtual Environment**
-    '''bash
+    ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows: venv\Scripts\activate
-    '''
+    ```
 
 3.  **Install Required Libraries**
     The required Python packages are listed in `requirements.txt`.
-    '''bash
+    ```bash
     pip install -r requirements.txt
-    '''
+    ```
 
 4.  **Configure Environment Variables**
     The bot loads your Telegram token from an environment variable for security.
-    '''bash
+    ```bash
     export TELEGRAM_TOKEN="YOUR_TELEGRAM_BOT_TOKEN_HERE"
-    '''
+    ```
     (On Windows, use `set TELEGRAM_TOKEN="YOUR_TOKEN"`)
 
 5.  **Run the Bot**
     Make sure the `language.yaml` file is in the same directory as your script.
-    '''bash
-    python app.py # Or your script's filename
-    '''
+    ```bash
+    python domobot.py # Or your script's filename
+    ```
 
 ## Usage
 
