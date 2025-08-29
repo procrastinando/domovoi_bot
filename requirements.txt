@@ -1,6 +1,7 @@
-python-telegram-bot
-groq
+python-telegram-bot[ext]
 pyyaml
-ddgs
-markdown-it-py
+groq
+duckduckgo-search
 telegraph[aio]
+markdown-it-py
+python-dotenv
