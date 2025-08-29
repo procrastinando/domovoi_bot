@@ -1,7 +1,7 @@
 python-telegram-bot[ext]
 pyyaml
 groq
-duckduckgo-search
+ddgs
 telegraph[aio]
 markdown-it-py
 python-dotenv

@@ -96,20 +96,24 @@ async def fallback_api_command(update: Update, context: ContextTypes.DEFAULT_TYP
 async def system_prompt_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     prompt = get_user_data(user_id, 'system_prompt', get_text(user_id, 'default_system_prompt'))
-    text = get_text(user_id, 'system_prompt_prompt', prompt=prompt)
+    text = get_text(user_id, 'system_prompt_prompt', prompt=escape_markdown_v2(prompt))
     await generic_command_handler(update, context, 'awaiting_system_prompt', text)
 
 async def image_prompt_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     prompt = get_user_data(user_id, 'image_prompt', get_text(user_id, 'default_image_prompt'))
-    text = get_text(user_id, 'image_prompt_prompt', prompt=prompt)
+    text = get_text(user_id, 'image_prompt_prompt', prompt=escape_markdown_v2(prompt))
     await generic_command_handler(update, context, 'awaiting_image_prompt', text)
 
 async def temperature_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
+    await update.message.delete()
     temp = get_user_data(user_id, 'selected_model', DEFAULT_MODEL).get('temperature', 1.0)
     text = get_text(user_id, 'temperature_prompt', temp=temp)
-    await generic_command_handler(update, context, 'awaiting_temperature', text)
+    keyboard = [[InlineKeyboardButton(get_text(user_id, 'button_cancel'), callback_data="cancel_generic")]]
+    msg = await update.effective_chat.send_message(text, reply_markup=InlineKeyboardMarkup(keyboard))
+    set_user_data(user_id, 'state', 'awaiting_temperature')
+    set_user_data(user_id, 'last_bot_message_id', msg.message_id)
 
 async def models_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
