@@ -159,4 +159,3 @@ The command descriptions in your Telegram menu update dynamically to reflect you
 | `/tavily_api`             | Set or update your Tavily API key for web search.                |
 | `/tavily_fallback_api`    | Set a backup Tavily API key for search failover.                 |
 | `/erase_me`               | Permanently delete all your data (keys, settings, current chat). |
-```
