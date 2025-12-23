@@ -16,6 +16,9 @@ MODEL_MAX_TOKENS = { "moonshotai/kimi-k2-instruct": 16384, "meta-llama/llama-4-m
 
 VISION_MODELS = ["meta-llama/llama-4-maverick-17b-128e-instruct"]
 
+TAVILY_API_URL = "https://api.tavily.com/search"
+TAVILY_USAGE_URL = "https://api.tavily.com/usage"
+
 SUPPORTED_LANGUAGES = {
     'en': 'English', 'es': 'Spanish', 'fr': 'French', 'zh': 'Chinese',
     'pt': 'Portuguese', 'ru': 'Russian', 'it': 'Italian', 'hi': 'Hindi',

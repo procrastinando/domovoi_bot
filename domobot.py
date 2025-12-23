@@ -4,8 +4,9 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from config import TELEGRAM_TOKEN
 from bot.localization import load_languages
 from bot.handlers import (
-    start, new_chat, api_command, fallback_api_command, models_command,
-    system_prompt_command, image_prompt_command, temperature_command,
+    start, new_chat, groq_api_command, groq_fallback_api_command,
+    tavily_api_command, tavily_fallback_api_command,
+    models_command, system_prompt_command, image_prompt_command, temperature_command,
     web_search_command, erase_me_command, max_completion_tokens_command,
     use_telegraph_command, language_command, button_callback, handle_user_input,
     handle_unsupported_message, handle_unknown_command
@@ -24,10 +25,20 @@ def main() -> None:
     app = Application.builder().token(TELEGRAM_TOKEN).build()
 
     cmd_handlers = {
-        "start": start, "new_chat": new_chat, "api": api_command, "fallback_api": fallback_api_command,
-        "models": models_command, "system_prompt": system_prompt_command, "image_prompt": image_prompt_command,
-        "temperature": temperature_command, "web_search": web_search_command, "erase_me": erase_me_command,
-        "max_completion_tokens": max_completion_tokens_command, "use_telegraph": use_telegraph_command,
+        "start": start,
+        "new_chat": new_chat,
+        "groq_api": groq_api_command,             # Renamed
+        "groq_fallback_api": groq_fallback_api_command, # Renamed
+        "tavily_api": tavily_api_command,
+        "tavily_fallback_api": tavily_fallback_api_command,
+        "models": models_command,
+        "system_prompt": system_prompt_command,
+        "image_prompt": image_prompt_command,
+        "temperature": temperature_command,
+        "web_search": web_search_command,
+        "erase_me": erase_me_command,
+        "max_completion_tokens": max_completion_tokens_command,
+        "use_telegraph": use_telegraph_command,
         "language": language_command
     }
     for cmd, hnd in cmd_handlers.items():

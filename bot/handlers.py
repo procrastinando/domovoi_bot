@@ -7,12 +7,20 @@ import subprocess
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, BotCommand, BotCommandScopeChat
 from telegram.ext import ContextTypes
+from telegram.error import BadRequest
 from groq import Groq, RateLimitError, APIStatusError
 
 from bot.database import get_user_data, set_user_data, load_database, save_database
-from bot.groq_client import get_groq_completion_with_retry, prepare_messages_for_groq, transcribe_audio_with_retry
+from bot.groq_client import (
+    get_groq_completion_with_retry, prepare_messages_for_groq, 
+    transcribe_audio_with_retry, generate_search_query
+)
 from bot.localization import get_text, SUPPORTED_LANGUAGES
-from bot.utils import send_temp_message, send_response, escape_markdown_v2, is_api_key_valid_sync, perform_web_search, strip_think_tags
+from bot.utils import (
+    send_temp_message, send_response, escape_markdown_v2, is_api_key_valid_sync,
+    perform_web_search, strip_think_tags, is_tavily_key_valid_sync, get_tavily_usage,
+    escape_html
+)
 from config import DEFAULT_MODEL, DEFAULT_MAX_TOKENS, MODEL_MAX_TOKENS, MODELS, VISION_MODELS
 
 logger = logging.getLogger(__name__)
@@ -38,8 +46,10 @@ async def set_bot_commands_for_user(user_id: int, context: ContextTypes.DEFAULT_
         BotCommand("temperature", get_text(user_id, 'menu_temperature', temp=model_config.get('temperature', 1.0))),
         BotCommand("max_completion_tokens", get_text(user_id, 'menu_max_tokens', user_tokens=user_tokens, effective_tokens=effective_tokens)),
         BotCommand("language", get_text(user_id, 'menu_language')),
-        BotCommand("api", get_text(user_id, 'menu_api')),
-        BotCommand("fallback_api", get_text(user_id, 'menu_fallback_api')),
+        BotCommand("groq_api", get_text(user_id, 'menu_api', default="Groq API")),
+        BotCommand("groq_fallback_api", get_text(user_id, 'menu_fallback_api', default="Groq Fallback")),
+        BotCommand("tavily_api", get_text(user_id, 'menu_tavily_api')),
+        BotCommand("tavily_fallback_api", get_text(user_id, 'menu_tavily_fallback_api', default='Tavily Fallback')),
         BotCommand("erase_me", get_text(user_id, 'menu_erase_me'))
     ]
     await context.bot.set_my_commands(commands, scope=BotCommandScopeChat(chat_id=user_id))
@@ -69,40 +79,82 @@ async def new_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.message.from_user.id
     set_user_data(user_id, "current_chat", [])
     logger.info(f"Erased chat history for user {user_id}")
-    await update.message.reply_text(get_text(user_id, 'new_chat_started'))
+    
+    msg_text = get_text(user_id, 'new_chat_started')
+    
+    # Usage Stats Logic
+    tavily_key = get_user_data(user_id, 'tavily_api_key')
+    tavily_fallback_key = get_user_data(user_id, 'tavily_fallback_api_key')
+    
+    if tavily_key:
+        msg_text += "\n\n"
+        usage_main = await get_tavily_usage(tavily_key)
+        msg_text += f"Tavily queries: {usage_main}"
+        
+        if tavily_fallback_key:
+            usage_fallback = await get_tavily_usage(tavily_fallback_key)
+            msg_text += f"\nFallback Tavily queries: {usage_fallback}"
+            
+    await update.message.reply_text(msg_text)
 
-async def generic_command_handler(update: Update, context: ContextTypes.DEFAULT_TYPE, user_state: str, prompt_text: str):
+async def generic_command_handler(update: Update, context: ContextTypes.DEFAULT_TYPE, user_state: str, prompt_text: str, parse_mode: str = 'HTML'):
     user_id = update.effective_user.id
     await update.message.delete()
     keyboard = [[InlineKeyboardButton(get_text(user_id, 'button_cancel'), callback_data="cancel_generic")]]
-    msg = await update.effective_chat.send_message(prompt_text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode='MarkdownV2')
+    
+    try:
+        msg = await update.effective_chat.send_message(prompt_text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=parse_mode)
+    except BadRequest as e:
+        logger.error(f"Formatting error in generic_command_handler ({parse_mode}): {e}. Fallback to plain text.")
+        msg = await update.effective_chat.send_message(prompt_text, reply_markup=InlineKeyboardMarkup(keyboard))
+        
     set_user_data(user_id, 'state', user_state)
     set_user_data(user_id, 'last_bot_message_id', msg.message_id)
 
-async def api_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def groq_api_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     key = get_user_data(user_id, 'groq_api_key', 'Not set')
-    masked = f"{key[:7]}...{key[-4:]}" if '...' not in key else 'Not set'
+    # Use HTML code tag for easy copy
+    masked = f"<code>{escape_html(key[:7] + '...' + key[-4:] if '...' not in key else 'Not set')}</code>"
     prompt = get_text(user_id, 'api_key_prompt', masked_key=masked)
     await generic_command_handler(update, context, 'awaiting_api_key', prompt)
 
-async def fallback_api_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def groq_fallback_api_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     key = get_user_data(user_id, 'fallback_api_key', 'Not set')
-    masked = f"{key[:7]}...{key[-4:]}" if '...' not in key else 'Not set'
+    # Use HTML code tag for easy copy
+    masked = f"<code>{escape_html(key[:7] + '...' + key[-4:] if '...' not in key else 'Not set')}</code>"
     prompt = get_text(user_id, 'fallback_api_key_prompt', masked_key=masked)
     await generic_command_handler(update, context, 'awaiting_fallback_api_key', prompt)
+
+async def tavily_api_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+    key = get_user_data(user_id, 'tavily_api_key', 'Not set')
+    masked = f"<code>{escape_html(key[:4] + '...' + key[-3:] if '...' not in key else 'Not set')}</code>"
+    prompt = get_text(user_id, 'tavily_api_prompt', masked_key=masked)
+    await generic_command_handler(update, context, 'awaiting_tavily_api_key', prompt)
+
+async def tavily_fallback_api_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+    key = get_user_data(user_id, 'tavily_fallback_api_key', 'Not set')
+    masked = f"<code>{escape_html(key[:4] + '...' + key[-3:] if '...' not in key else 'Not set')}</code>"
+    prompt_text = get_text(user_id, 'tavily_fallback_prompt', default="Enter your Fallback Tavily API Key (Current: {masked_key}):", masked_key=masked)
+    await generic_command_handler(update, context, 'awaiting_tavily_fallback_key', prompt_text)
 
 async def system_prompt_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     prompt = get_user_data(user_id, 'system_prompt', get_text(user_id, 'default_system_prompt'))
-    text = get_text(user_id, 'system_prompt_prompt', prompt=escape_markdown_v2(prompt))
+    # Use HTML pre tag for block copy
+    formatted_prompt = f"<pre>{escape_html(prompt)}</pre>"
+    text = get_text(user_id, 'system_prompt_prompt', prompt=formatted_prompt)
     await generic_command_handler(update, context, 'awaiting_system_prompt', text)
 
 async def image_prompt_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     prompt = get_user_data(user_id, 'image_prompt', get_text(user_id, 'default_image_prompt'))
-    text = get_text(user_id, 'image_prompt_prompt', prompt=escape_markdown_v2(prompt))
+    # Use HTML pre tag for block copy
+    formatted_prompt = f"<pre>{escape_html(prompt)}</pre>"
+    text = get_text(user_id, 'image_prompt_prompt', prompt=formatted_prompt)
     await generic_command_handler(update, context, 'awaiting_image_prompt', text)
 
 async def temperature_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -110,8 +162,11 @@ async def temperature_command(update: Update, context: ContextTypes.DEFAULT_TYPE
     await update.message.delete()
     temp = get_user_data(user_id, 'selected_model', DEFAULT_MODEL).get('temperature', 1.0)
     text = get_text(user_id, 'temperature_prompt', temp=temp)
+    
     keyboard = [[InlineKeyboardButton(get_text(user_id, 'button_cancel'), callback_data="cancel_generic")]]
-    msg = await update.effective_chat.send_message(text, reply_markup=InlineKeyboardMarkup(keyboard))
+    # Send using HTML to match others, though temp has no special chars usually
+    msg = await update.effective_chat.send_message(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode='HTML')
+        
     set_user_data(user_id, 'state', 'awaiting_temperature')
     set_user_data(user_id, 'last_bot_message_id', msg.message_id)
 
@@ -233,16 +288,34 @@ async def handle_user_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
     state_map = {
         'awaiting_api_key': ('groq_api_key', 'api_key_updated'),
         'awaiting_fallback_api_key': ('fallback_api_key', 'fallback_api_key_updated'),
+        'awaiting_tavily_api_key': ('tavily_api_key', 'tavily_api_updated'),
+        'awaiting_tavily_fallback_key': ('tavily_fallback_api_key', 'tavily_api_updated'),
         'awaiting_system_prompt': ('system_prompt', 'system_prompt_updated'),
         'awaiting_image_prompt': ('image_prompt', 'image_prompt_updated')
     }
 
     if state in state_map:
         key, msg_key = state_map[state]
-        value = update.message.text
-        if 'api_key' in key and not await asyncio.to_thread(is_api_key_valid_sync, value):
-            await cleanup_and_set_state(); await send_temp_message(context, user_id, get_text(user_id, 'api_key_invalid')); return
-        set_user_data(user_id, key, value); await cleanup_and_set_state(); await send_temp_message(context, user_id, get_text(user_id, msg_key)); return
+        value = update.message.text.strip()
+        
+        # specific validation for keys
+        if 'api_key' in key:
+            if key == 'groq_api_key' or key == 'fallback_api_key':
+                if not await asyncio.to_thread(is_api_key_valid_sync, value):
+                    await cleanup_and_set_state()
+                    await send_temp_message(context, user_id, get_text(user_id, 'api_key_invalid'))
+                    return
+            elif 'tavily' in key:
+                if not await is_tavily_key_valid_sync(value):
+                    await cleanup_and_set_state()
+                    await send_temp_message(context, user_id, get_text(user_id, 'tavily_api_invalid'))
+                    return
+
+        set_user_data(user_id, key, value)
+        await cleanup_and_set_state()
+        await send_temp_message(context, user_id, get_text(user_id, msg_key))
+        return
+        
     elif state == 'awaiting_temperature':
         try:
             temp = float(update.message.text)
@@ -290,11 +363,25 @@ async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE
     user_id = update.effective_user.id
     await context.bot.send_chat_action(chat_id=update.effective_chat.id, action='typing')
     prompt = update.message.text
+    
+    # --- WEB SEARCH LOGIC ---
     if get_user_data(user_id, 'web_search_enabled', False):
-        if results := await perform_web_search(prompt):
-            prompt = f"{results}\n\nUser query: {prompt}"
+        tavily_key = get_user_data(user_id, 'tavily_api_key')
+        if not tavily_key:
+            await send_temp_message(context, user_id, get_text(user_id, 'tavily_key_not_set'))
         else:
-            await send_temp_message(context, update.effective_chat.id, get_text(user_id, 'web_search_failed'))
+            # 1. GENERATE QUERY
+            history = get_user_data(user_id, 'current_chat', [])
+            search_query = await generate_search_query(update, context, history, prompt)
+            
+            # 2. PERFORM SEARCH (with failover/swap built-in)
+            results = await perform_web_search(user_id, search_query)
+            
+            if results:
+                prompt = f"{results}\n\nUser query: {prompt}"
+            else:
+                await send_temp_message(context, update.effective_chat.id, get_text(user_id, 'tavily_search_error'))
+                
     history = get_user_data(user_id, 'current_chat', [])
     history.append({"role": "user", "content": prompt, "timestamp": datetime.now(timezone.utc).isoformat()})
     await process_and_respond(update, context, history)
