@@ -1,161 +1,112 @@
 # Groq Multimodal Telegram Bot
 
-A powerful, feature-rich, and multi-language Telegram bot that leverages the blazing-fast Groq API for conversational AI. This bot is designed to be a personal AI assistant, complete with persistent memory, multimodal capabilities (text, images, and audio), deep user customization, and AI-optimized web search via Tavily.
+A highly advanced, multi-language Telegram bot powered by **Groq's LPU™ Inference Engine**. This bot acts as a versatile personal AI assistant featuring persistent memory, multimodal capabilities (text, image, audio), smart web search integration (Tavily/Compound), and robust API management.
 
 [![Powered by Groq](https://img.shields.io/badge/Powered%20by-Groq-green?style=flat-square)](https://groq.com/)
-[![Powered by Tavily](https://img.shields.io/badge/Search%20by-Tavily-blue?style=flat-square)](https://tavily.com/)
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue?style=flat-square)](https://www.python.org/)
 [![Multi-language](https://img.shields.io/badge/Language-Multi-orange?style=flat-square)](#-features)
 
 ## ✨ Features
 
-*   🌍 **Multi-language Support:**
-    *   Automatically detects the user's language on the first start.
-    *   Fully internationalized interface with support for 10+ languages via a simple `language.yaml` file.
-    *   Users can switch languages at any time with the `/language` command.
+*   🌍 **Multi-language Support (9 Languages):**
+    *   English, Spanish, Chinese, Russian, French, Italian, Portuguese, Vietnamese, Indonesian.
+    *   **Domovoi Persona:** System prompts are localized with cultural nuances and local slang (80% English / 20% Local Slang) for a unique personality.
 
-*   🧠 **High-Performance AI:** Engage in text-based conversations using powerful models like Llama 4 Maverick and GPT-Oss 120B on the Groq LPU™ Inference Engine.
+*   🧠 **Advanced AI Models:**
+    *   **Llama 4 Maverick**: Multimodal (Text & Vision).
+    *   **Kimi K2**: High-speed text processing.
+    *   **GPT-Oss 120B**: Deep reasoning capabilities.
+    *   **Groq Compound**: Specialized model for complex tool use.
 
-*   🖼️ **Intelligent Image Understanding:** Send a photo, and the bot will analyze it. If your current model doesn't support images, it intelligently uses a vision model for analysis and injects the description into your ongoing chat.
+*   🖼️ **Multimodal Intelligence:**
+    *   **Vision:** Analyzes photos using Llama 4 (even if the selected chat model is text-only, it auto-switches for description).
+    *   **Audio:** Transcribes voice notes using **Whisper-Large-V3** and responds intelligently.
 
-*   🗣️ **Voice Transcription:** Transcribes voice notes using Whisper-Large-V3, then responds to the transcribed text.
+*   🌐 **Smart Web Search (Two Modes):**
+    *   **Tavily Search:** Advanced external search. Uses **Groq Structured Outputs** to generate optimal search queries based on conversation history. Results are injected cleanly into the context.
+    *   **Compound Native:** Uses Groq's internal `compound` model tools for integrated search.
+    *   **Advanced Config:** Configure search depth and answer inclusion directly from the menu.
 
-*   🌐 **AI-Optimized Web Search:** A toggleable web search mode provides the bot with real-time information using **Tavily**, a search engine built specifically for AI agents, ensuring accurate and up-to-date answers.
+*   ⚡ **Smart API Load Balancing & Failover:**
+    *   **Dual API Keys:** Supports Main and Fallback keys for both Groq and Tavily.
+    *   **Randomized Usage:** Automatically balances requests between keys to avoid rate limits.
+    *   **Silent Pruning:** If context limits (413) or rate limits (429) are hit, the bot **silently prunes old messages** and recursively retries without disturbing the user.
 
-*   ⚙️ **Fine-Grained Performance Control:**
-    *   `/models`: Switch between AI models and set special parameters like **reasoning effort** for GPT-Oss.
-    *   `/temperature`: Adjust the model's creativity and randomness (0.0 to 1.0).
-    *   `/max_completion_tokens`: Set a preferred maximum response length, which automatically adapts to the hard limits of the currently selected model.
+*   🛠️ **Dynamic & Clean Interface:**
+    *   **Ephemeral Messages:** Configuration menus and status updates automatically delete themselves to keep the chat clean.
+    *   **Dynamic Menu:** The `/` command menu updates in real-time to show current settings (Model, Temp, Search Mode, etc.).
+    *   **Visual History Management:** `/delete_last` visually removes the last interaction from Telegram AND the database.
 
-*   📄 **Advanced Output Handling with Telegra.ph:**
-    *   `/use_telegraph`: Choose how the bot handles messages that exceed Telegram's character limit: split them, or automatically post them as clean, readable [Telegra.ph](https://telegra.ph/) articles.
+*   📄 **Telegra.ph Integration:**
+    *   Automatically posts long responses to Telegra.ph for better readability (configurable).
 
-*   🛠️ **Dynamic & Clean User Interface:**
-    *   The bot's command menu (`/`) updates instantly to show your current settings for the model, temperature, token limits, and more, **all in your selected language**.
-    *   Commands are deleted after use to keep the chat history uncluttered.
-
-*   💾 **Persistent & Private User Settings:**
-    *   Remembers each user's API keys, model choice, language, custom prompts, and all preferences in a local `database.yaml` file.
-    *   `/erase_me`: Users can permanently delete all their data from the bot's database at any time.
-
-*   🔔 **Robust Error Handling & API Management:**
-    *   **Groq Keys:** Set a primary `/groq_api` and a backup `/groq_fallback_api`.
-    *   **Tavily Keys:** Set a primary `/tavily_api` and a backup `/tavily_fallback_api` for search.
-    *   The bot automatically swaps to fallback keys if the primary ones fail (e.g., due to rate limits) and notifies you in-chat.
+*   💾 **Persistent Privacy:**
+    *   User settings and chat history are saved locally in `database.yaml`.
+    *   `/erase_me`: Instantly wipes all user data from the bot.
 
 ## How to Run
 
 ### 1. Using Docker Compose (Recommended)
 
-The easiest way to get started is with Docker.
-
-**Setup:**
-
-1.  Create a `.env` file in the same directory and add your Telegram token:
+1.  **Configure Environment:**
+    Create a `.env` file:
+    ```env
+    TELEGRAM_TOKEN="YOUR_TELEGRAM_BOT_TOKEN"
     ```
-    TELEGRAM_TOKEN="YOUR_TELEGRAM_BOT_TOKEN_HERE"
+
+2.  **Files:**
+    Ensure `languages.yaml` is in the same directory.
+
+3.  **Run:**
+    ```bash
+    docker-compose up -d
     ```
-2.  Download the `language.yaml` file from the repository and place it in the same directory.
-3.  Create a `docker-compose.yml` file with the following content:
-
-```yaml
-services:
-  domovoi_bot:
-    # build from source if you have custom changes:
-    build:
-      context: https://github.com/procrastinando/domovoi_bot.git#main
-    container_name: domovoi_bot
-    env_file:
-      - .env
-    volumes:
-      # Mounts the local database and language file into the container
-      - domovoi_bot_data:/app
-      - ./language.yaml:/app/language.yaml
-    restart: always
-
-volumes:
-  domovoi_bot_data:
-```
-
-**Run:**
-
-```bash
-docker-compose up -d
-```
 
 ### 2. Manual Installation
 
-#### Prerequisites
-
+**Prerequisites:**
 *   Python 3.10+
-*   [FFmpeg](https://ffmpeg.org/download.html) installed and available in your system's PATH (for audio conversion).
-*   A **Groq API Key** (from [console.groq.com](https://console.groq.com/keys)).
-*   A **Tavily API Key** (from [tavily.com](https://tavily.com/)) for web search features.
-*   A **Telegram Bot Token** (from [@BotFather](https://t.me/BotFather)).
+*   **FFmpeg** installed (required for voice processing).
+*   **Groq API Key** ([Get it here](https://console.groq.com/keys)).
+*   **Tavily API Key** (Optional, for web search).
 
-#### Installation and Setup
-
-1.  **Clone the Repository**
-    ```bash
-    git clone https://github.com/procrastinando/domovoi_bot.git
-    cd domovoi_bot
-    ```
-
-2.  **Create and Activate a Virtual Environment**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    ```
-
-3.  **Install Required Libraries**
-    The required Python packages are listed in `requirements.txt`.
+**Steps:**
+1.  Clone the repo and navigate to the directory.
+2.  Install dependencies:
     ```bash
     pip install -r requirements.txt
     ```
-
-4.  **Configure Environment Variables**
-    The bot loads your Telegram token from an environment variable for security.
+3.  Set Token:
     ```bash
-    export TELEGRAM_TOKEN="YOUR_TELEGRAM_BOT_TOKEN_HERE"
+    export TELEGRAM_TOKEN="YOUR_TOKEN"
+    # Windows: set TELEGRAM_TOKEN="YOUR_TOKEN"
     ```
-    (On Windows, use `set TELEGRAM_TOKEN="YOUR_TOKEN"`)
-
-5.  **Run the Bot**
-    Make sure the `language.yaml` file is in the same directory as your script.
+4.  Run:
     ```bash
-    python domobot.py # Or your script's filename
+    python domobot.py
     ```
 
-## Usage
+## Usage & Commands
 
-1.  **Start a Chat:** Open Telegram and find your bot. Send the `/start` command.
-2.  **Provide API Keys:**
-    *   The bot will prompt you for your Groq API key.
-    *   To enable web search, provide your Tavily API key using the `/tavily_api` command.
-3.  **Interact:** You can now chat with the bot!
-    *   Send a text message.
-    *   Send a photo (with an optional caption).
-    *   Send a voice message or an audio file.
-4.  **Use Commands:** Use the menu button next to the text input field or type the commands directly to configure the bot.
+Start the bot with `/start`. Use the **Menu button** or type commands to configure behavior.
 
-### Available Commands
+| Command | Description |
+| :--- | :--- |
+| `/new_chat` | 🧹 Clears context history. Shows Tavily usage stats if configured. |
+| `/delete_last` | 🗑️ Deletes the last user-bot interaction from chat and memory. |
+| `/models` | 🤖 Switch between Llama 4, Kimi, GPT-Oss, or Compound. |
+| `/web_search` | 🌐 Toggle between **Off**, **Compound**, or **Tavily** modes. |
+| `/prompt` | ⚙️ Configure System, Image, and Search Query generation prompts. |
+| `/api` | 🔑 Manage Main/Fallback keys for Groq and Tavily. |
+| `/temperature` | 🌡️ Adjust creativity (0.0 - 2.0). |
+| `/max_completion_tokens` | 📏 Set max response length (2k - 65k). Auto-clamps to model limits. |
+| `/use_telegraph` | 📄 Configure long message handling (Never/Long/Always). |
+| `/language` | 🌍 Change bot interface language. |
+| `/erase_me` | ⚠️ Permanently delete all your data. |
 
-The command descriptions in your Telegram menu update dynamically to reflect your current settings and language!
+### Prompt Copying
+When viewing current prompts or API keys, tap the text (e.g., `gsk_...`) to instantly copy it to your clipboard.
 
-| Command                   | Description                                                      |
-| :------------------------ | :--------------------------------------------------------------- |
-| `/start`                  | Initializes the bot, detects your language, and sets up your profile. |
-| `/new_chat`               | Clears the current conversation history and starts a fresh chat. |
-| `/language`               | Choose a new interface language for the bot.                     |
-| `/models`                 | Choose from available AI models (with special options).          |
-| `/temperature`            | Set the model's creativity/randomness (0.0 to 2.0).              |
-| `/max_completion_tokens`  | Set the max response length. Adapts to model limits.             |
-| `/web_search`             | Toggle real-time web search (Tavily) ON or OFF.                  |
-| `/use_telegraph`          | Control how long messages are handled (Split or Telegra.ph).     |
-| `/system_prompt`          | Set a custom personality or instruction set for the bot.         |
-| `/image_prompt`           | Set the prompt used for image analysis by the vision model.      |
-| `/groq_api`               | View your masked primary Groq API key or update it.              |
-| `/groq_fallback_api`      | Set a backup Groq API key for automatic failover.                |
-| `/tavily_api`             | Set or update your Tavily API key for web search.                |
-| `/tavily_fallback_api`    | Set a backup Tavily API key for search failover.                 |
-| `/erase_me`               | Permanently delete all your data (keys, settings, current chat). |
+### Context Management
+*   **Web Search Results** are ephemeral. They are injected into the context for the *current* answer but **are not saved** to the database to save tokens.
+*   **Silent Failover**: If you see the bot "typing" for a bit longer than usual, it is likely handling a rate limit by optimizing context and retrying in the background.

@@ -1,61 +1,39 @@
 import logging
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler
-
 from config import TELEGRAM_TOKEN
-from bot.localization import load_languages
-from bot.handlers import (
-    start, new_chat, groq_api_command, groq_fallback_api_command,
-    tavily_api_command, tavily_fallback_api_command,
-    models_command, system_prompt_command, image_prompt_command, temperature_command,
-    web_search_command, erase_me_command, max_completion_tokens_command,
-    use_telegraph_command, language_command, button_callback, handle_user_input,
-    handle_unsupported_message, handle_unknown_command
+from localization import load_languages
+from handlers import (
+    start_command, generic_menu_command_handler, new_chat_command, delete_last_command,
+    handle_message, button_callback
 )
+from utils import setup_logger
 
-# --- Logging Setup ---
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = setup_logger("domobot")
 
-def main() -> None:
-    if not TELEGRAM_TOKEN:
-        logger.error("Configuration error: TELEGRAM_TOKEN not set.")
-        return
+def main():
     load_languages()
-    logger.info("Starting bot...")
     app = Application.builder().token(TELEGRAM_TOKEN).build()
 
-    cmd_handlers = {
-        "start": start,
-        "new_chat": new_chat,
-        "groq_api": groq_api_command,             # Renamed
-        "groq_fallback_api": groq_fallback_api_command, # Renamed
-        "tavily_api": tavily_api_command,
-        "tavily_fallback_api": tavily_fallback_api_command,
-        "models": models_command,
-        "system_prompt": system_prompt_command,
-        "image_prompt": image_prompt_command,
-        "temperature": temperature_command,
-        "web_search": web_search_command,
-        "erase_me": erase_me_command,
-        "max_completion_tokens": max_completion_tokens_command,
-        "use_telegraph": use_telegraph_command,
-        "language": language_command
-    }
-    for cmd, hnd in cmd_handlers.items():
-        app.add_handler(CommandHandler(cmd, hnd))
+    app.add_handler(CommandHandler("start", start_command))
+    app.add_handler(CommandHandler("new_chat", new_chat_command))
+    app.add_handler(CommandHandler("delete_last", delete_last_command))
+    
+    # Generic Menu Commands
+    app.add_handler(CommandHandler("models", lambda u, c: generic_menu_command_handler(u, c, 'models')))
+    app.add_handler(CommandHandler("web_search", lambda u, c: generic_menu_command_handler(u, c, 'web_search')))
+    app.add_handler(CommandHandler("prompt", lambda u, c: generic_menu_command_handler(u, c, 'prompt')))
+    app.add_handler(CommandHandler("api", lambda u, c: generic_menu_command_handler(u, c, 'api')))
+    app.add_handler(CommandHandler("use_telegraph", lambda u, c: generic_menu_command_handler(u, c, 'telegraph')))
+    app.add_handler(CommandHandler("temperature", lambda u, c: generic_menu_command_handler(u, c, 'temperature')))
+    app.add_handler(CommandHandler("max_completion_tokens", lambda u, c: generic_menu_command_handler(u, c, 'tokens')))
+    app.add_handler(CommandHandler("language", lambda u, c: generic_menu_command_handler(u, c, 'language')))
+    app.add_handler(CommandHandler("erase_me", lambda u, c: generic_menu_command_handler(u, c, 'erase')))
 
     app.add_handler(CallbackQueryHandler(button_callback))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_user_input))
-    app.add_handler(MessageHandler(filters.PHOTO, handle_user_input))
-    app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, handle_user_input))
-    app.add_handler(MessageHandler(filters.ALL & ~filters.COMMAND & ~filters.TEXT & ~filters.PHOTO & ~filters.VOICE & ~filters.AUDIO, handle_unsupported_message))
-    app.add_handler(MessageHandler(filters.COMMAND, handle_unknown_command))
+    app.add_handler(MessageHandler(filters.ALL, handle_message))
 
-    try:
-        logger.info("Bot is polling...")
-        app.run_polling()
-    except Exception as e:
-        logger.critical(f"Bot crashed: {e}", exc_info=True)
+    logger.info("Bot is running...")
+    app.run_polling()
 
 if __name__ == '__main__':
     main()

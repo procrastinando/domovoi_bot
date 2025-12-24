@@ -5,22 +5,52 @@ load_dotenv()
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 DATABASE_FILE = "database.yaml"
-LANGUAGE_FILE = "language.yaml"
+LANGUAGE_FILE = "languages.yaml"
 TELEGRAM_MSG_LIMIT = 4096
 
-DEFAULT_MODEL = { "name": "meta-llama/llama-4-maverick-17b-128e-instruct", "temperature": 1.0 }
-DEFAULT_MAX_TOKENS = 8192
+# Model Definitions with explicit Context Limits
+MODELS = {
+    "llama4": {
+        "id": "meta-llama/llama-4-maverick-17b-128e-instruct",
+        "name": "Llama 4 Maverick",
+        "type": "multimodal",
+        "context": 8192
+    },
+    "kimi": {
+        "id": "moonshotai/kimi-k2-instruct-0905",
+        "name": "Kimi K2",
+        "type": "text",
+        "context": 16384
+    },
+    "gptoss": {
+        "id": "openai/gpt-oss-120b",
+        "name": "GPT-Oss 120B",
+        "type": "reasoner",
+        "context": 65536
+    },
+    "compound": {
+        "id": "groq/compound",
+        "name": "Compound",
+        "type": "compound",
+        "context": 8192
+    }
+}
 
-MODELS = { "Kimi k2": "moonshotai/kimi-k2-instruct-0905", "📷 Llama 4 Maverick": "meta-llama/llama-4-maverick-17b-128e-instruct", "GPT-Oss 120B": "openai/gpt-oss-120b" }
-MODEL_MAX_TOKENS = { "moonshotai/kimi-k2-instruct": 16384, "meta-llama/llama-4-maverick-17b-128e-instruct": 8192, "openai/gpt-oss-120b": 65536 }
+DEFAULT_MODEL_KEY = "llama4"
+DEFAULT_MAX_TOKENS = 4096
 
-VISION_MODELS = ["meta-llama/llama-4-maverick-17b-128e-instruct"]
+# Supported Languages
+SUPPORTED_LANGUAGES = {
+    'en': 'English',
+    'es': 'Español',
+    'zh': '中文',
+    'ru': 'Русский',
+    'fr': 'Français',
+    'it': 'Italiano',
+    'pt': 'Português',
+    'vi': 'Tiếng Việt',
+    'id': 'Bahasa Indonesia'
+}
 
 TAVILY_API_URL = "https://api.tavily.com/search"
 TAVILY_USAGE_URL = "https://api.tavily.com/usage"
-
-SUPPORTED_LANGUAGES = {
-    'en': 'English', 'es': 'Spanish', 'fr': 'French', 'zh': 'Chinese',
-    'pt': 'Portuguese', 'ru': 'Russian', 'it': 'Italian', 'hi': 'Hindi',
-    'vi': 'Vietnamese', 'id': 'Indonesian'
-}
